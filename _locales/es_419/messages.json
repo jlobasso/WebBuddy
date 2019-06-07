@@ -4,7 +4,14 @@
       "description": "Desctipcion en latino de appName de la aplicacion."
     },
     "appDescription": {
-      "message": "Esta aplicacion esta en español latino.",
-      "description": "Desctipcion en latino de appDescription de la aplicacion."
+      "message": "Español latino.....",
+      "description": "Desctipcion en latino de appDescription de la aplicacion.",
+      "placeholders": {
+        "name": {
+          "content": "$1", 
+          "example": "Name of channel"
+        }
+      },
+      "title": "HOLAAAA"
     }
   }
