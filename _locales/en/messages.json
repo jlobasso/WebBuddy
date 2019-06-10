@@ -1,22 +1,22 @@
 {
-    "appName": {
-        "message": "My App",
-        "description": "The title of the application, displayed in the web store."
+    "pulpouName": {
+        "message": "Buddy Pulpou",
+        "description": "Title of the application."
     },
-    "appDescription": {
-        "message": "This app does something awe some.", 
-        "description":"The description of the application, displayed in the web store."
+    "pulpouDescription": {
+        "message": "English.", 
+        "description":"Description of the application."
     },
-    "pulpoNavHashtags": {
+    "pulpouNavHashtags": {
       "message": "HASHTAG"
     },
-    "pulpoNavSellers": {
+    "pulpouNavSellers": {
       "message": "SELLERS"
     },
-    "pulpoNavReports": {
+    "pulpouNavReports": {
       "message": "REPORTS"
     },
-    "pulpoNavImages": {
+    "pulpouNavImages": {
       "message": "IMAGES"
     }
 }

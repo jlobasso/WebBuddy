@@ -1,22 +1,22 @@
 {
-  "appName": {
-    "message": "Minha aplicação",
+  "pulpouName": {
+    "message": "Buddy Pulpou",
     "description": "Descrição do aplicativo appName."
   },
-  "appDescription": {
-    "message": "Esta aplicação está em Português.",
+  "pulpouDescription": {
+    "message": "Português.",
     "description": "Descrição do aplicativo Descrição do aplicativo."
   },
-  "pulpoNavHashtags": {
+  "pulpouNavHashtags": {
     "message": "HASHTAG"
   },
-  "pulpoNavSellers": {
-    "message": "SELLERS"
+  "pulpouNavSellers": {
+    "message": "VENDEDORES"
   },
-  "pulpoNavReports": {
-    "message": "REPORTS"
+  "pulpouNavReports": {
+    "message": "RELATÓRIOS"
   },
-  "pulpoNavImages": {
-    "message": "IMAGES"
+  "pulpouNavImages": {
+    "message": "IMAGENS"
   }
 }
