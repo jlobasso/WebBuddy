@@ -1,28 +1,28 @@
 {
-    "appName": {
-      "message": "Mi Aplicación en latino",
-      "description": "Desctipcion de appName de la aplicacion."
-    },
-    "appDescription": {
-      "message": "Español latino.....",
-      "description": "Desctipcion de appDescription de la aplicacion.",
-      "placeholders": {
-        "name": {
-          "content": "$1", 
-          "example": "Name of channel"
-        }
+  "appName": {
+    "message": "Mi Aplicación en latino",
+    "description": "Desctipcion de appName de la aplicacion."
+  },
+  "appDescription": {
+    "message": "Español latino.....",
+    "description": "Desctipcion de appDescription de la aplicacion.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Name of channel"
       }
-    },
-    "pulpoNavHashtags": {
-      "message": "HASHTAG"
-    },
-    "pulpoNavSellers": {
-      "message": "SELLERS"
-    },
-    "pulpoNavReports": {
-      "message": "REPORTS"
-    },
-    "pulpoNavImages": {
-      "message": "IMAGES"
     }
+  },
+  "pulpoNavHashtags": {
+    "message": "HASHTAG"
+  },
+  "pulpoNavSellers": {
+    "message": "SELLERS"
+  },
+  "pulpoNavReports": {
+    "message": "REPORTS"
+  },
+  "pulpoNavImages": {
+    "message": "IMAGES"
   }
+}

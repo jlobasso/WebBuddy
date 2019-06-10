@@ -45,6 +45,7 @@
     "128": "popupWindows/images/get_pulpou128.png"
   },
   "web_accessible_resources": [
-    "content/pulpoNav.html"
+    "content/pulpoNav.html",
+    "content/interface.js"
   ]
 }

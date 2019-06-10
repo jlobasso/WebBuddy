@@ -1,12 +1,11 @@
 {
-    "appName": {
-      "message": "Minha aplicação",
-      "description": "Descrição do aplicativo appName."
-    },
-    "appDescription": {
-      "message": "Esta aplicação está em Português.",
-      "description": "Descrição do aplicativo Descrição do aplicativo."
-    }
+  "appName": {
+    "message": "Minha aplicação",
+    "description": "Descrição do aplicativo appName."
+  },
+  "appDescription": {
+    "message": "Esta aplicação está em Português.",
+    "description": "Descrição do aplicativo Descrição do aplicativo."
   },
   "pulpoNavHashtags": {
     "message": "HASHTAG"
