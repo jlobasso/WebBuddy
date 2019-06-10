@@ -1,11 +1,11 @@
 {
     "appName": {
-      "message": "Mi Aplicación en latino",
-      "description": "Desctipcion en latino de appName de la aplicacion."
+      "message": "Buddy Pulpou",
+      "description": "Desctipcion latino de appName de la aplicacion."
     },
     "appDescription": {
       "message": "Español latino.....",
-      "description": "Desctipcion en latino de appDescription de la aplicacion.",
+      "description": "Desctipcion latino de appDescription de la aplicacion.",
       "placeholders": {
         "name": {
           "content": "$1", 
