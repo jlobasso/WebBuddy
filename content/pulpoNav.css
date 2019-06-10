@@ -1,3 +1,7 @@
+.row{
+    margin-right: 0px;
+    margin-left: 0px;
+}
 .barWrapper{
     background-color: #4c4c4c;
     height: 100px;
@@ -13,29 +17,71 @@
     cursor: pointer;
 }
 
-.radioMarker{
-    background-color: #000;
-    height: 16px;
-    width: 16px;
-    display: block;
-    float: left;
-    border-radius: 9px;
-    margin-top: 4px;
-    margin-right: 8px;
+.itemMenu:hover{
+   color: #FFF;     
 }
 
-.radioMarker .disabledRadio{
-    background-color: #000;
-    border: none;
-
-}
-
-.radioMarker .activeRadio{
-    background-color: #d8d8d8;
-    border: 4px solid #000;
+.itemMenu span{
+    vertical-align: middle;
+    font-size: 16px;
 }
 
 .logo{
     width: 41px;
     height: 56px;
+    cursor: pointer;
+}
+
+.settings-wrapper{
+text-align: right;
+}
+
+.settings{
+    font-size: 36px;
+    color: #828282;
+    line-height: 45px !important;
+    cursor: pointer;
+}
+
+.settings:hover{
+    color: #cecaca;
+}
+
+.thumb-down{
+    background-color: #f49192;
+    color: #FFF;    
+    width: 114px;
+    height: 45px;
+    border-radius: 22px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.thumb-down:hover{
+    background-color: #dc7f80;
+}
+
+.thumb-down i{
+    line-height: 45px;
+}
+.send{
+    background-color: #828282;
+    color: #FFF;
+    border-radius: 22px;
+    width: 168px;
+    height: 45px;
+    text-align: center;
+    line-height: 45px;
+    cursor: pointer;
+}
+
+.send:hover{
+    background-color: #6d6c6c;
+}
+
+.barSubMenuWrapper{
+    height: 90px;
+    background-color: #d8d8d8;
+    /* display: none !important; */
+    visibility: hidden;
 }
