@@ -1,11 +1,11 @@
 {
-  "appName": {
+  "pulpouName": {
     "message": "Buddy Pulpou",
-    "description": "Desctipcion latino de appName de la aplicacion."
+    "description": "Name latino de la aplicacion."
   },
-  "appDescription": {
-    "message": "Español latino.....",
-    "description": "Desctipcion latino de appDescription de la aplicacion.",
+  "pulpouDescription": {
+    "message": "Latino",
+    "description": "Desctipcion latino de la aplicacion.",
     "placeholders": {
       "name": {
         "content": "$1",
@@ -13,16 +13,16 @@
       }
     }
   },
-  "pulpoNavHashtags": {
+  "pulpouNavHashtags": {
     "message": "HASHTAG"
   },
-  "pulpoNavSellers": {
-    "message": "SELLERS"
+  "pulpouNavSellers": {
+    "message": "VENDEDORES"
   },
-  "pulpoNavReports": {
+  "pulpouNavReports": {
     "message": "REPORTS"
   },
-  "pulpoNavImages": {
-    "message": "IMAGES"
+  "pulpouNavImages": {
+    "message": "IMAGENES"
   }
 }
