@@ -1,0 +1,41 @@
+.barWrapper{
+    background-color: #4c4c4c;
+    height: 100px;
+    width: 100%;
+    padding: 0px 33px;
+}
+
+.itemMenu{
+    float: left;
+    margin-right: 45px;
+    color: #d8d8d8;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.radioMarker{
+    background-color: #000;
+    height: 16px;
+    width: 16px;
+    display: block;
+    float: left;
+    border-radius: 9px;
+    margin-top: 4px;
+    margin-right: 8px;
+}
+
+.radioMarker .disabledRadio{
+    background-color: #000;
+    border: none;
+
+}
+
+.radioMarker .activeRadio{
+    background-color: #d8d8d8;
+    border: 4px solid #000;
+}
+
+.logo{
+    width: 41px;
+    height: 56px;
+}
