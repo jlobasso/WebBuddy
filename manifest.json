@@ -1,5 +1,5 @@
 {
-  "name": "__MSG_appName_",
+  "name": "__MSG_appName__",
   "version": "1.0",
   "description": "__MSG_appDescription__",
   "manifest_version": 2,
@@ -26,10 +26,23 @@
     "storage",
     "tabs",
     "https://*/",
-    "http://*/"
+    "http://*/",
+    "declarativeContent"
   ],
   "page_action": {
-    "default_popup": "popupWindows/popup.html"
+    "default_popup": "popupWindows/popup.html",
+    "default_icon": {
+      "16": "popupWindows/images/get_pulpou16.png",
+      "32": "popupWindows/images/get_pulpou32.png",
+      "48": "popupWindows/images/get_pulpou48.png",
+      "128": "popupWindows/images/get_pulpou128.png"
+    }
+  },
+  "icons": {
+    "16": "popupWindows/images/get_pulpou16.png",
+    "32": "popupWindows/images/get_pulpou32.png",
+    "48": "popupWindows/images/get_pulpou48.png",
+    "128": "popupWindows/images/get_pulpou128.png"
   },
   "web_accessible_resources": [
     "content/pulpoNav.html"

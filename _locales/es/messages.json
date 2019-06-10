@@ -12,5 +12,17 @@
           "example": "Name of channel"
         }
       }
+    },
+    "pulpoNavHashtags": {
+      "message": "HASHTAG"
+    },
+    "pulpoNavSellers": {
+      "message": "SELLERS"
+    },
+    "pulpoNavReports": {
+      "message": "REPORTS"
+    },
+    "pulpoNavImages": {
+      "message": "IMAGES"
     }
   }

@@ -11,11 +11,11 @@ chrome.runtime.onInstalled.addListener(function() {
   var rule = {
     conditions: [
         new chrome.declarativeContent.PageStateMatcher({
-        pageUrl: { hostEquals: 'www.instagram.com'}
+        // pageUrl: { hostEquals: 'www.instagram.com'}
         }),
-        new chrome.declarativeContent.PageStateMatcher({
-        pageUrl: { hostEquals: 'web.whatsapp.com'}
-        })
+        // new chrome.declarativeContent.PageStateMatcher({
+        // pageUrl: { hostEquals: 'web.whatsapp.com'}
+        // })
     ],
     actions: [ new chrome.declarativeContent.ShowPageAction() ]
     };

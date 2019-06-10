@@ -7,4 +7,16 @@
       "message": "Esta aplicação está em Português.",
       "description": "Descrição do aplicativo Descrição do aplicativo."
     }
+  },
+  "pulpoNavHashtags": {
+    "message": "HASHTAG"
+  },
+  "pulpoNavSellers": {
+    "message": "SELLERS"
+  },
+  "pulpoNavReports": {
+    "message": "REPORTS"
+  },
+  "pulpoNavImages": {
+    "message": "IMAGES"
   }

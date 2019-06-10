@@ -11,7 +11,19 @@
           "content": "$1", 
           "example": "Name of channel"
         }
-      },
-      "title": "HOLAAAA"
+      }
+    },
+    "pulpoNavHashtags": {
+      "message": "HASHTAG"
+    },
+    "pulpoNavSellers": {
+      "message": "SELLERS"
+    },
+    "pulpoNavReports": {
+      "message": "REPORTS"
+    },
+    "pulpoNavImages": {
+      "message": "IMAGES"
     }
-  }
+
+    }

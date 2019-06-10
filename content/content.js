@@ -11,6 +11,7 @@ document.documentElement.appendChild(iframe);
 var bodyStyle = document.body.style;
 var cssTransform = 'transform' in bodyStyle ? 'transform' : 'webkitTransform';
 bodyStyle[cssTransform] = 'translateY(' + height + ')';
+console.log(chrome.i18n.getMessage("pulpoNavHashtags"))
 
 
 
