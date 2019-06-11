@@ -1,7 +1,5 @@
 import { initMenu } from './menu/initMenu.js'
 
-
-const itemMenu = document.getElementsByClassName("itemMenu");
 const subMenu = document.getElementsByClassName("barSubMenuWrapper")[0];
 const marker = document.getElementById("marker");
 
@@ -24,6 +22,8 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 
 
 const assignActions = () => {
+
+    const itemMenu = document.getElementsByClassName("itemMenu");
 
     [...itemMenu].forEach(item => {
 
