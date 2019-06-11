@@ -1,36 +1,30 @@
 let definitions = {
   availibleActions: [
     {
-      hashtags: {
-        name: 'hashtag',
-        idMenu: 'hashtag_pulpou_menu',
-        idData: 'hashtag_sub_menu',
-        data: ["#joicobrazil", "#joicoBR", "#joicoImportadosBR", "#joico_BR", "#joico_brazil"]
-      }
+      name: 'hashtag',
+      idMenu: 'hashtag_pulpou_menu',
+      idData: 'hashtag_sub_menu',
+      data: ["#joicobrazil", "#joicoBR", "#joicoImportadosBR", "#joico_BR", "#joico_brazil"]
     },
     {
-      sellers: {
-        name: 'sellers',
-        idMenu: 'sellers_pulpou_menu',
-        idData: 'sellers_sub_menu',
-        data: []
-      }
+      name: 'sellers',
+      idMenu: 'sellers_pulpou_menu',
+      idData: 'sellers_sub_menu',
+      data: []
+
     },
     {
-      reports: {
-        name: 'reports',
-        idMenu: 'reports_pulpou_menu',
-        idData: 'reports_sub_menu',
-        data: []
-      }
+      name: 'reports',
+      idMenu: 'reports_pulpou_menu',
+      idData: 'reports_sub_menu',
+      data: []
+
     },
     {
-      images: {
-        name: 'images',
-        idMenu: 'images_pulpou_menu',
-        idData: 'images_sub_menu',
-        data: []
-      }
+      name: 'images',
+      idMenu: 'images_pulpou_menu',
+      idData: 'images_sub_menu',
+      data: []
     }
   ]
 }
@@ -40,16 +34,15 @@ const getDefinitions = async () => {
     setTimeout(() => resolve(definitions), 2000);
   });
 
-  // const message = { target: 'mainContent', action: 'GOT_DEFINITIONS', def };
+  const message = { target: 'mainContent', action: 'SEND_DEFINITIONS', def };
 
-  // chrome.tabs.query({}, function (tabs) {
-  //   tabs.forEach(tab => {
-  //     chrome.tabs.sendMessage(tab.id, message, function (response) {
-  //       console.log("DEFINITION_SENT");
-  //       console.log(def);
-  //     });
-  //   });
-  // });
+  chrome.tabs.query({}, function (tabs) {
+    tabs.forEach(tab => {
+      chrome.tabs.sendMessage(tab.id, message, function (response) {
+        console.log("DEFINITION SENT");
+      });
+    });
+  });
 
   return def;
 }
@@ -63,9 +56,9 @@ chrome.runtime.onInstalled.addListener(function () {
 
 chrome.runtime.onMessage.addListener(async function (message, sender, sendResponse) {
 
-  if (message.target == "back" && message.action === 'GET_DEFINITIONS') {
-    const def = await getDefinitions();
-    sendResponse(def);
+  if (message.target == "back" && message.action === 'ASK_DEFINITIONS') {
+    getDefinitions();
+    sendResponse("DEFINITIONS ASKED BY CONTENT");
   }
 
   if (message.target == "back" && message.action === 'barVisibility') {
