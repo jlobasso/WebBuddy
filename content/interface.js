@@ -2,6 +2,14 @@ const itemMenu = document.getElementsByClassName("itemMenu");
 const subMenu = document.getElementsByClassName("barSubMenuWrapper")[0];
 const marker = document.getElementById("marker");
 
+chrome.runtime.sendMessage(
+    {target:'back', action:'GET_DEFINITIONS'},
+    function (response) {
+        console.log(response);
+    }
+);
+
+
 [...itemMenu].forEach(item => {
 
     item.addEventListener("click", (e) => {
@@ -48,7 +56,7 @@ const showBar = (id) => {
         function (response) {
             console.log(response);
         }
-    );
+    );    
 }
 
 const hideBar = () => {

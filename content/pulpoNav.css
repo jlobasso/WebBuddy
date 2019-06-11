@@ -84,6 +84,7 @@ text-align: right;
     background-color: #d8d8d8;
     display: none;
     /* visibility: hidden; */
+    padding: 0px 20px;
 }
 
 #marker{
@@ -93,4 +94,10 @@ text-align: right;
     color: #d8d8d8;
     font-size: 38px !important;
     display: none;
+}
+
+.hashtag-menu{
+    font-weight: bold;
+    margin-right: 10px;
+    float: left;
 }

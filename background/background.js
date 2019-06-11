@@ -1,40 +1,73 @@
-// 'use strict';
+let definitions = {
+  availibleActions: [
+    {
+      hashtags: {
+        name: 'hashtag',
+        idMenu: 'hashtag_pulpou_menu',
+        idData: 'hashtag_sub_menu',
+        data: ["#joicobrazil", "#joicoBR", "#joicoImportadosBR", "#joico_BR", "#joico_brazil"]
+      }
+    },
+    {
+      sellers: {
+        name: 'sellers',
+        idMenu: 'sellers_pulpou_menu',
+        idData: 'sellers_sub_menu',
+        data: []
+      }
+    },
+    {
+      reports: {
+        name: 'reports',
+        idMenu: 'reports_pulpou_menu',
+        idData: 'reports_sub_menu',
+        data: []
+      }
+    },
+    {
+      images: {
+        name: 'images',
+        idMenu: 'images_pulpou_menu',
+        idData: 'images_sub_menu',
+        data: []
+      }
+    }
+  ]
+}
 
-// chrome.runtime.onInstalled.addListener(function() {  
+const getDefinitions = async () => {
+  const def = await new Promise(function (resolve, reject) {
+    setTimeout(() => resolve(definitions), 2000);
+  });
 
-// chrome.storage.sync.set({color: '#3aa757'}, function() {
-//     console.log('The color is green.');
-// });
+  // const message = { target: 'mainContent', action: 'GOT_DEFINITIONS', def };
 
+  // chrome.tabs.query({}, function (tabs) {
+  //   tabs.forEach(tab => {
+  //     chrome.tabs.sendMessage(tab.id, message, function (response) {
+  //       console.log("DEFINITION_SENT");
+  //       console.log(def);
+  //     });
+  //   });
+  // });
 
-//     var rule = {
-//         conditions: [
-//             new chrome.declarativeContent.PageStateMatcher({
-//             pageUrl: { hostEquals: 'www.instagram.com'}
-//             })
-//         ],
-//         actions: [ new chrome.declarativeContent.ShowPageAction() ]
-//     };
-
-
-
-//     chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
-//         chrome.declarativeContent.onPageChanged.addRules([rule]);
-//     });
-
-// });
-
+  return def;
+}
 
 chrome.runtime.onInstalled.addListener(function () {
-  chrome.contextMenus.create({
-    "id": "sampleContextMenu",
-    "title": "Sample Context Menu",
-    "contexts": ["selection"]
-  });
+  definitions = definitions;
 });
 
 
-chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+
+
+chrome.runtime.onMessage.addListener(async function (message, sender, sendResponse) {
+
+  if (message.target == "back" && message.action === 'GET_DEFINITIONS') {
+    const def = await getDefinitions();
+    sendResponse(def);
+  }
+
   if (message.target == "back" && message.action === 'barVisibility') {
     message.target = 'mainContent';
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
