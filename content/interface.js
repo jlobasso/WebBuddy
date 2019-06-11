@@ -1,5 +1,6 @@
 const itemMenu = document.getElementsByClassName("itemMenu");
 const subMenu = document.getElementsByClassName("barSubMenuWrapper")[0];
+const marker = document.getElementById("marker");
 
 [...itemMenu].forEach(item => {
 
@@ -21,7 +22,7 @@ const subMenu = document.getElementsByClassName("barSubMenuWrapper")[0];
                 radio.innerText = 'radio_button_checked'
             }
             showBar(item.id);
-        }else{
+        } else {
             hideBar();
         }
 
@@ -29,11 +30,37 @@ const subMenu = document.getElementsByClassName("barSubMenuWrapper")[0];
 
 })
 
+const barVisibility = {
+    target: 'back',
+    action: 'barVisibility',
+    value: null
+}
+
 const showBar = (id) => {
-    console.log(id);
-    subMenu.style.visibility = "visible"
+    const menu = document.getElementById(id);
+    const activePosition = menu.getBoundingClientRect().left - 11;
+    marker.style.left = activePosition+"px";
+    marker.style.display = "block";
+    subMenu.style.display = "block";
+    barVisibility.value = 'showBar';
+    chrome.runtime.sendMessage(
+        barVisibility,
+        function (response) {
+            console.log(response);
+        }
+    );
 }
 
 const hideBar = () => {
-    subMenu.style.visibility = "hidden";
+    marker.style.display = "none";
+    subMenu.style.display = "none";
+    barVisibility.value = 'hideBar';
+    chrome.runtime.sendMessage(
+        barVisibility,
+        function (response) {
+            console.log(response);
+        }
+    );
 }
+
+

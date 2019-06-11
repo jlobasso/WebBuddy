@@ -82,6 +82,15 @@ text-align: right;
 .barSubMenuWrapper{
     height: 90px;
     background-color: #d8d8d8;
-    /* display: none !important; */
-    visibility: hidden;
+    display: none;
+    /* visibility: hidden; */
+}
+
+#marker{
+    position: absolute;
+    top: 78px;
+    left: 0px;
+    color: #d8d8d8;
+    font-size: 38px !important;
+    display: none;
 }
