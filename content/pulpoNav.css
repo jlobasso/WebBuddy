@@ -99,6 +99,22 @@ text-align: right;
 
 .hashtag-menu{
     font-weight: bold;
-    margin-right: 10px;
+    margin-right: 12px;
     float: left;
+    cursor: pointer;
+}
+
+.hashtag-menu:hover{
+    color: #626262;
+}
+
+.seller-menu{
+    float: left;
+    cursor: pointer;
+    height: 90px;
+    padding: 34px;
+}
+
+.seller-menu:hover{
+    color: #575757;
 }

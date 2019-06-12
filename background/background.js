@@ -1,27 +1,31 @@
 let definitions = {
   availibleActions: [
     {
-      name: 'hashtag',
+      name: '#HASHTAGS',
+      importName: 'hashtags',
       idMenu: 'hashtag_pulpou_menu',
       idData: 'hashtag_sub_menu',
       data: ["#joicobrazil", "#joicoBR", "#joicoImportadosBR", "#joico_BR", "#joico_brazil"]
     },
     {
-      name: 'sellers',
+      name: 'SELLERS',
+      importName: 'sellers',
       idMenu: 'sellers_pulpou_menu',
       idData: 'sellers_sub_menu',
-      data: []
+      data: [{ name: 'WHITELIST', data: [] }, { name: 'BLACKLIST', data: [] }]
 
     },
     {
-      name: 'reports',
+      name: 'REPORTS',
+      importName: 'reports',
       idMenu: 'reports_pulpou_menu',
       idData: 'reports_sub_menu',
       data: []
 
     },
     {
-      name: 'images',
+      name: 'IMAGES',
+      importName: 'images',
       idMenu: 'images_pulpou_menu',
       idData: 'images_sub_menu',
       data: []
