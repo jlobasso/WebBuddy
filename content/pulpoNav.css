@@ -118,3 +118,19 @@ text-align: right;
 .seller-menu:hover{
     color: #575757;
 }
+
+.seller-menu.active{
+    background-color: #FFF; 
+}
+
+.dataSubMenuWrapper{
+    display: none;
+}
+
+.content-sub-menu{
+    display: none;
+}
+
+.content-sub-menu.active{
+    display: block;
+}

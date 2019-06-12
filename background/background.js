@@ -5,14 +5,48 @@ let definitions = {
       importName: 'hashtags',
       idMenu: 'hashtag_pulpou_menu',
       idData: 'hashtag_sub_menu',
-      data: ["#joicobrazil", "#joicoBR", "#joicoImportadosBR", "#joico_BR", "#joico_brazil"]
+      data: [
+        {
+          name: '#joicobrazil',
+          type: null,
+          data: []
+        },
+        {
+          name: '#joicoBR',
+          type: null,
+          data: []
+        },
+        {
+          name: '#joicoImportadosBR',
+          type: null,
+          data: []
+        },
+        {
+          name: '#joico_BR',
+          type: null,
+          data: []
+        },
+        {
+          name: '#joico_brazil',
+          type: null,
+          data: []
+        }]
     },
     {
       name: 'SELLERS',
       importName: 'sellers',
       idMenu: 'sellers_pulpou_menu',
       idData: 'sellers_sub_menu',
-      data: [{ name: 'WHITELIST', data: [] }, { name: 'BLACKLIST', data: [] }]
+      data: [{
+        name: 'WHITELIST',
+        type: 'table',
+        data: [1,2,3,4,5]
+      },
+      {
+        name: 'BLACKLIST',
+        type: 'table',
+        data: ["uno", "dos", "tres", "cuatro", "cinco"]
+      }]
 
     },
     {
@@ -65,7 +99,7 @@ chrome.runtime.onMessage.addListener(async function (message, sender, sendRespon
     sendResponse("DEFINITIONS ASKED BY CONTENT");
   }
 
-  if (message.target == "back" && message.action === 'barVisibility') {
+  if (message.target == "back" && message.action === 'BAR_VISIBILITY') {
     message.target = 'mainContent';
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       chrome.tabs.sendMessage(tabs[0].id, message, function (response) {

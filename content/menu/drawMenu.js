@@ -74,7 +74,7 @@ export const assignActions = () => {
 
 const barVisibility = {
     target: 'back',
-    action: 'barVisibility',
+    action: 'BAR_VISIBILITY',
     value: null
 }
 
