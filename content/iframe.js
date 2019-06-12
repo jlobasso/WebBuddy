@@ -1,8 +1,10 @@
+import {setCommonActions} from './menu/commonActions.js';
 import { drawMenu } from './menu/drawMenu.js'
 import { drawSubMenu } from './menu/drawSubMenu.js'
 
 let definitions = { availibleActions: [] };
 
+setCommonActions();
 
 /*SE SOLICITAN LAS DEFINICIONES AL BACKGROUD*/
 chrome.runtime.sendMessage(

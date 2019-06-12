@@ -1,15 +1,12 @@
-const menuWrapper = document.getElementsByClassName("menuWrapper")[0];
-const subMenuWrapper = document.getElementsByClassName("barSubMenuWrapper")[0];
-const subMenuContent = document.getElementsByClassName("menu-subMenu");
-const marker = document.getElementById("marker");
-
-let defTmp = [];
-
+import {showBar, hideBar, updateDefinitions} from './commonActions.js';
 
 export const drawMenu = (definitions) => {
-
+    
+    const menuWrapper = document.getElementsByClassName("menuWrapper")[0];
+    const subMenuWrapper = document.getElementsByClassName("barSubMenuWrapper")[0];
+    
     menuWrapper.innerHTML = "";
-    defTmp = definitions;
+    updateDefinitions(definitions);
 
     definitions.availibleActions.forEach(itemMenu => {
         const item = document.createElement("div");
@@ -27,7 +24,7 @@ export const drawMenu = (definitions) => {
 
         const subMenu = document.createElement("div");
         subMenu.id = itemMenu.idData;
-        subMenu.style.display = 'none';
+        // subMenu.style.display = 'none';
         subMenu.classList.add("menu-subMenu");
         subMenuWrapper.appendChild(subMenu);
 
@@ -70,64 +67,3 @@ export const assignActions = () => {
     })
 
 }
-
-
-const barVisibility = {
-    target: 'back',
-    action: 'BAR_VISIBILITY',
-    value: null
-}
-
-
-
-const showBar = (id) => {
-    const menu = document.getElementById(id);
-    const activePosition = menu.getBoundingClientRect().left - 11;
-    marker.style.left = activePosition + "px";
-    marker.style.display = "block";
-    subMenuWrapper.style.display = "block";
-    barVisibility.value = 'showBar';
-
-    const activeIdContent = getActionElement('idMenu', id)[0].idData;
-
-    [...subMenuContent].forEach(content => {
-        if (content.id === activeIdContent) {
-            content.style.display = 'block';
-        }
-        else {
-            content.style.display = 'none';
-        }
-    });
-
-    chrome.runtime.sendMessage(
-        barVisibility,
-        function (response) {
-            console.log(response);
-        }
-    );
-}
-
-const hideBar = () => {
-    marker.style.display = "none";
-    subMenuWrapper.style.display = "none";
-    barVisibility.value = 'hideBar';
-    chrome.runtime.sendMessage(
-        barVisibility,
-        function (response) {
-            console.log(response);
-        }
-    );
-}
-
-
-const getActionElement = (prop, value) => {
-    
-    return defTmp.availibleActions.reduce((a, c) => {
-        if (prop in c && c[prop] === value) {
-            a.push(c)
-        }
-        return a;
-    }, [])
-}
-
-
