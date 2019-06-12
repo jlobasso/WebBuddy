@@ -6,8 +6,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" href="pulpoNav.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>Web buddy, by Pulpou</title>
@@ -42,7 +42,7 @@
                     <i class="material-icons settings">settings</i>
                 </div>
                 <div class="col">
-                    <div class="thumb-down"  id="thumb-down-button">
+                    <div class="thumb-down" id="thumb-down-button">
                         <i class="material-icons hand">thumb_down_alt</i>
                     </div>
                 </div>
@@ -57,7 +57,18 @@
     <div class="barSubMenuWrapper row d-flex flex-wrap align-items-center">
         <i id="marker" class="material-icons">arrow_drop_up</i>
         <div id="main_settings_sub_menu" class="menu-subMenu">
-        Estos serian los settings!! 
+            <div class="custom-control custom-switch settings-items">
+                <input type="checkbox" class="custom-control-input" id="scan-images">
+                <label class="custom-control-label" for="scan-images">SCAN IMAGES</label>
+            </div>
+            <div class="custom-control custom-switch settings-items">
+                <input type="checkbox" class="custom-control-input" id="focus-mode">
+                <label class="custom-control-label" for="focus-mode">FOCUS MODE</label>
+            </div>
+            <div class="custom-control custom-switch settings-items">
+                <input type="checkbox" class="custom-control-input" id="show-notes">
+                <label class="custom-control-label" for="show-notes">SHOW NOTES</label>
+            </div>
         </div>
     </div>
     <div class="dataSubMenuWrapper">

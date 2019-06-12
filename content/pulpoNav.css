@@ -48,6 +48,17 @@ text-align: right;
     color: #cecaca;
 }
 
+.settings-items .custom-control-input:checked~.custom-control-label::before{
+    background-color: #b8e986;
+    border-color: #c1c1c1;
+} 
+
+.settings-items{
+    float: left;
+    margin-left: 24px;
+    font-size: 15px;
+}
+
 .thumb-down{
     background-color: #f49192;
     color: #FFF;    

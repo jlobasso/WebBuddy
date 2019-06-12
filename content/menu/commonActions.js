@@ -46,11 +46,9 @@ export const showBar = (id) => {
     [...subMenuContent].forEach(content => {
         if (content.id === activeIdContent) {
             content.classList.add("active");
-            // content.style.display = 'block';
         }
         else {
             content.classList.remove("active");
-            // content.style.display = 'none';
         }
     });
 
@@ -79,6 +77,7 @@ export const setCommonActions = () => {
     const settings = document.getElementById("settings-button");
     const thumbDown = document.getElementById("thumb-down-button");
     const sendNotices = document.getElementById("send-notices-button");
+    const settingItems = document.querySelectorAll(".settings-items .custom-control-input");
 
     settings.addEventListener("click", () => {
 
@@ -103,6 +102,14 @@ export const setCommonActions = () => {
 
 
     });
+
+    [...settingItems].forEach(setItem => {
+        setItem.addEventListener("change", (e) => {
+            console.log(setItem.id);
+            console.log(setItem.checked);
+            alert("CAMBIAMOS EL SWITCH");
+        })
+    })
 
     thumbDown.addEventListener("click", () => {
         alert("CLICK EN THUMB DOWN")
