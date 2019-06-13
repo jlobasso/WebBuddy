@@ -40,7 +40,7 @@ let definitions = {
       data: [{
         name: 'WHITELIST',
         type: 'table',
-        data: [1,2,3,4,5]
+        data: [1, 2, 3, 4, 5]
       },
       {
         name: 'BLACKLIST',
@@ -67,6 +67,10 @@ let definitions = {
   ]
 }
 
+chrome.runtime.onInstalled.addListener(function () {
+  definitions = definitions;
+});
+
 const getDefinitions = async () => {
   const def = await new Promise(function (resolve, reject) {
     setTimeout(() => resolve(definitions), 2000);
@@ -84,13 +88,6 @@ const getDefinitions = async () => {
 
   return def;
 }
-
-chrome.runtime.onInstalled.addListener(function () {
-  definitions = definitions;
-});
-
-
-
 
 chrome.runtime.onMessage.addListener(async function (message, sender, sendResponse) {
 
@@ -111,16 +108,36 @@ chrome.runtime.onMessage.addListener(async function (message, sender, sendRespon
   }
 })
 
+const sitesAvailibles = [{
+  site: ['https://www.instagram.com', 'http://www.instagram.com'],
+  script: 'instagram'
+},
+{
+  site: ['https://stackoverflow.com'],
+  script: 'stackoverflow'
+},
+{
+  site: ['https://www.mercadolibre.com.ar/', 'https://www.mercadolivre.com'],
+  script: 'mercadolibre'
+}];
+
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+
+  const match = (sitesAvailibles
+    .find(avs => avs.site
+      .find(s => tab.url.includes(s))) || false);
 
 
+  if (changeInfo.status == 'complete' && match) {
 
-/*EJEMPLO MENSAJE A TODOS LOS TABS*/
-// chrome.tabs.query({}, function (tabs) {
-//   var message = { foo: bar };
-//   for (var i = 0; i < tabs.length; ++i) {
-//     chrome.tabs.sendMessage(tabs[i].id, message);
-//   }
+    chrome.tabs.executeScript(tabId, { file: 'content/mainContent.js' }, () => {
+      chrome.tabs.executeScript(tabId, { file: `content/customSitesScripts/${match.script}/content.js` }, () => {
+        console.log("AGREGAMOS SCRIPT ESPECIFICO");
+      });
+    });
 
-// });
+  }
+
+});
 
 
