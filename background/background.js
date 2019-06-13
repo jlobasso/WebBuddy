@@ -65,7 +65,23 @@ let definitions = {
       data: []
     }
   ]
-}
+};
+
+const sitesAvailibles = [{
+  siteRegexp: ['http.:\/\/www.instagram.com.*\/*'],
+  script: 'instagram'
+},
+{
+  siteRegexp: ['http.:\/\/stackoverflow.com\/.*'],
+  script: 'stackoverflow'
+},
+{
+  siteRegexp: ['http.:\/\/www\.mercadoli[b|v]re\.com.*'],
+  script: 'mercadolibre'
+}];
+
+let activeSites = new Set();
+
 
 chrome.runtime.onInstalled.addListener(function () {
   definitions = definitions;
@@ -78,11 +94,10 @@ const getDefinitions = async () => {
 
   const message = { target: 'mainContent', action: 'SEND_DEFINITIONS', def };
 
-  chrome.tabs.query({}, function (tabs) {
-    tabs.forEach(tab => {
-      chrome.tabs.sendMessage(tab.id, message, function (response) {
-        console.log("DEFINITION SENT");
-      });
+  chrome.tabs.query({url:[...activeSites.values()]}, function (tabs) {
+    console.log("TABS TO NOTICE " + tabs.length)
+    tabs.forEach((tab, i) => {
+      chrome.tabs.sendMessage(tab.id, message);
     });
   });
 
@@ -93,47 +108,33 @@ chrome.runtime.onMessage.addListener(async function (message, sender, sendRespon
 
   if (message.target == "back" && message.action === 'ASK_DEFINITIONS') {
     getDefinitions();
-    sendResponse("DEFINITIONS ASKED BY CONTENT");
   }
 
   if (message.target == "back" && message.action === 'BAR_VISIBILITY') {
     message.target = 'mainContent';
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, message, function (response) {
-        console.log("background sent message to main content");
-        console.log(response);
-      });
+      chrome.tabs.sendMessage(tabs[0].id, message);
     });
-    sendResponse("background noticed: " + message.value)
   }
 })
-
-const sitesAvailibles = [{
-  site: ['https://www.instagram.com', 'http://www.instagram.com'],
-  script: 'instagram'
-},
-{
-  site: ['https://stackoverflow.com'],
-  script: 'stackoverflow'
-},
-{
-  site: ['https://www.mercadolibre.com.ar/', 'https://www.mercadolivre.com'],
-  script: 'mercadolibre'
-}];
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
   const match = (sitesAvailibles
-    .find(avs => avs.site
-      .find(s => tab.url.includes(s))) || false);
+    .find(avs => avs.siteRegexp
+      .find(s => {
+        let regex = new RegExp(s, "g");
+        return regex.test(tab.url);
+      }
+      )) || false);
 
 
   if (changeInfo.status == 'complete' && match) {
 
+    activeSites.add(tab.url);
+
     chrome.tabs.executeScript(tabId, { file: 'content/mainContent.js' }, () => {
-      chrome.tabs.executeScript(tabId, { file: `content/customSitesScripts/${match.script}/content.js` }, () => {
-        console.log("AGREGAMOS SCRIPT ESPECIFICO");
-      });
+      chrome.tabs.executeScript(tabId, { file: `content/customSitesScripts/${match.script}/content.js` });
     });
 
   }

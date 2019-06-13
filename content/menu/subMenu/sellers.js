@@ -19,7 +19,7 @@ export const sellers = (element, wrapper) => {
                 item.classList.remove("active");
             });
 
-            [...document.getElementsByClassName("content-sub-menu")].forEach(data=>{
+            [...document.getElementsByClassName("content-sub-menu")].forEach(data => {
                 data.classList.remove("active");
             });
 
@@ -33,9 +33,6 @@ export const sellers = (element, wrapper) => {
                     action: 'BAR_VISIBILITY',
                     value: 'showSubMenuData',
                     data: { height: dataSubMenuWrapper.offsetHeight }
-                },
-                function (response) {
-                    console.log(response);
                 }
             );
         })

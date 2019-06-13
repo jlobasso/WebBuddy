@@ -52,24 +52,14 @@ export const showBar = (id) => {
         }
     });
 
-    chrome.runtime.sendMessage(
-        barVisibility,
-        function (response) {
-            console.log(response);
-        }
-    );
+    chrome.runtime.sendMessage(barVisibility);
 }
 
 export const hideBar = () => {
     marker.style.display = "none";
     subMenuWrapper.style.display = "none";
     barVisibility.value = 'hideBar';
-    chrome.runtime.sendMessage(
-        barVisibility,
-        function (response) {
-            console.log(response);
-        }
-    );
+    chrome.runtime.sendMessage(barVisibility);
 }
 
 export const setCommonActions = () => {

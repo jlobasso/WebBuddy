@@ -7,12 +7,7 @@ let definitions = { availibleActions: [] };
 setCommonActions();
 
 /*SE SOLICITAN LAS DEFINICIONES AL BACKGROUD*/
-chrome.runtime.sendMessage(
-    { target: 'back', action: 'ASK_DEFINITIONS' },
-    function (response) {
-        // console.log(response);
-    }
-);
+chrome.runtime.sendMessage({ target: 'back', action: 'ASK_DEFINITIONS' });
 
 /*EL BACKGROUND ENVIA LAS DEFINICIONES*/
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {

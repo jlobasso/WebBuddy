@@ -6,8 +6,7 @@ iframe.id = "webBuddyByPulpou"
 document.documentElement.appendChild(iframe);
 const bodyStyle = document.body.style;
 
-iframe.addEventListener("load", () => {    
-    console.log("alguna vez carga")
+iframe.addEventListener("load", () => {
     iframe.style.height = normalHeight+'px';
     iframe.style.width = '101%';
     iframe.style.position = 'fixed';
@@ -40,8 +39,6 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
             iframe.style.height = fullHeight+'px';
             bodyStyle.transform = 'translateY(' + fullHeight +'px)';
         }
-
-        sendResponse("Main content was noticed");
     }
 
 });
