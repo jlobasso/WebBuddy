@@ -94,7 +94,7 @@ const getDefinitions = async () => {
 
   const message = { target: 'mainContent', action: 'SEND_DEFINITIONS', def };
 
-  chrome.tabs.query({url:[...activeSites.values()]}, function (tabs) {
+  chrome.tabs.query({ url: [...activeSites.values()] }, function (tabs) {
     console.log("TABS TO NOTICE " + tabs.length)
     tabs.forEach((tab, i) => {
       chrome.tabs.sendMessage(tab.id, message);
@@ -116,6 +116,35 @@ chrome.runtime.onMessage.addListener(async function (message, sender, sendRespon
       chrome.tabs.sendMessage(tabs[0].id, message);
     });
   }
+
+  if (message.target == "back" && message.action === 'HASHTAG_ADDED') {
+
+    definitions.availibleActions.forEach(a => {
+      if (a.importName === 'hashtags') {
+        //TODO: FALTA AGREGAR SITE
+        sendResponse(a.data.some(h => h.name === message.value));
+      }
+    })
+
+  }
+
+  if (message.target == "back" && message.action === 'ADD_HASHTAG') {
+
+    definitions.availibleActions.forEach(a => {
+      if (a.importName === 'hashtags') {
+        //TODO: FALTA AGREGAR SITE
+        a.data.push({
+          name: message.value,
+          type: null,
+          data: []
+        });
+        sendResponse(true);
+        getDefinitions();
+      }
+    })
+
+  }
+
 })
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
@@ -135,6 +164,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
     chrome.tabs.executeScript(tabId, { file: 'content/mainContent.js' }, () => {
       chrome.tabs.executeScript(tabId, { file: `content/customSitesScripts/${match.script}/content.js` });
+      chrome.tabs.insertCSS(tabId, { file: `content/customSitesScripts/${match.script}/webBuddyStyles.css` });
     });
 
   }
