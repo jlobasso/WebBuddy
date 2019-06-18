@@ -34,19 +34,20 @@ if (hashtagElement.length) {
     hashtagToolTip.classList.add("web-budy-visible");
     hashtagToolTip.style.top = htop + "px";
     hashtagToolTip.style.left = hleft + "px";
-    hashtagToolTip.addEventListener("click",addHashTag)
     hashtagElement[0].appendChild(hashtagToolTip);
-
-
+    
+    
     chrome.runtime.sendMessage({ target: 'back', action: 'HASHTAG_ADDED', site: 'instagram', value: hashtagText }, (isHashtagAdded) => {
-
+        
         var textElement = hashtagToolTip.getElementsByClassName("web-budy-hashtag-text")[0];
         if (!isHashtagAdded) {
             hashtagToolTip.classList.add("web-budy-add-hashtag");
             textElement.innerText = "ADD HASHTAG";
+            hashtagToolTip.addEventListener("click",addHashTag);
         } else {
             hashtagToolTip.classList.add("web-budy-hashtag-added");
             textElement.innerText = "HASHTAG ADDED";
+            hashtagToolTip.removeEventListener('click', addHashTag);
         }
     });
 
@@ -66,7 +67,10 @@ if (hashtagElement.length) {
 
 
 var addHashTag = () => {
-    console.log("enviamos a guardar el hashtag")
+
+    //TODO: HACER ESTO MEJOR
+    hashtagText = "#"+hashtagText.split("#")[1];
+
     chrome.runtime.sendMessage({ target: 'back', action: 'ADD_HASHTAG', site: 'instagram', value: hashtagText }, (isHashtagAdded) => {
 
 
@@ -74,11 +78,11 @@ var addHashTag = () => {
         if (!isHashtagAdded) {
             hashtagToolTip.classList.add("web-budy-add-hashtag");
             textElement.innerText = "ADD HASHTAG";
+            hashtagToolTip.addEventListener("click",addHashTag);
         } else {
             hashtagToolTip.classList.add("web-budy-hashtag-added");
             textElement.innerText = "HASHTAG ADDED";
+            hashtagToolTip.removeEventListener('click', addHashTag);
         }
     });
 }
-
-//TODO: COMPORTAMIENTO DE AGREGAR HASHTAG
