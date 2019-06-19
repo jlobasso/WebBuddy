@@ -12,25 +12,21 @@ let definitions = {
           data: []
         },
         {
-          name: '#joicoBR',
+          name: '#autosaescala',
           type: null,
           data: []
         },
         {
-          name: '#joicoImportadosBR',
+          name: '#theflash',
           type: null,
           data: []
         },
         {
-          name: '#joico_BR',
+          name: '#spacexploration',
           type: null,
           data: []
-        },
-        {
-          name: '#joico_brazil',
-          type: null,
-          data: []
-        }]
+        }
+      ]
     },
     {
       name: 'SELLERS',
@@ -144,6 +140,13 @@ chrome.runtime.onMessage.addListener(async function (message, sender, sendRespon
       }
     })
 
+  }
+
+  if (message.target == "back" && message.action === 'REDIRECT_TAB') {
+    message.target = 'mainContent';
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, message);
+    });
   }
 
 })

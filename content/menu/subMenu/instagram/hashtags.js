@@ -7,11 +7,17 @@ export const hashtags = (element, wrapper) => {
         div.classList.add("hashtag-menu");
         div.innerText = e.name;
 
-        div.addEventListener("click",()=>{
-            //TODO: ESTO SOLO FUNCIONA PARA INSTAGRAM, VER DE TRAELO DE DEFINITIONS
-            //TODO: ENVIAR MENSAJE A CONTENT O MAIN CONTENT PARA QUE EL REDIRIJA.
-            var hashtag = e.name.replace(/\#/g,"");
-            window.location.href = `https://www.instagram.com/explore/tags/${hashtag}/`;
+        div.addEventListener("click", () => {
+
+            const hashtag = e.name.replace(/\#/g, "");
+            const redirect = `https://www.instagram.com/explore/tags/${hashtag}/`;
+
+            chrome.runtime.sendMessage({
+                target: 'back',
+                action: 'REDIRECT_TAB',
+                value: redirect
+            });
+
         })
 
         wrapper.appendChild(div);

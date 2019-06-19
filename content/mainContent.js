@@ -44,6 +44,10 @@ if(!window.contentScriptInjected){
                 bodyStyle.transform = 'translateY(' + fullHeight +'px)';
             }
         }
+
+        if (message.target == "mainContent" && message.action === 'REDIRECT_TAB') {
+            window.location = message.value; 
+        }
     
     });
 
