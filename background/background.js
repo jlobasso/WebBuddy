@@ -107,6 +107,7 @@ const getDefinitions = async () => {
 chrome.runtime.onMessage.addListener(async function (message, sender, sendResponse) {
 
   if (message.target == "back" && message.action === 'ASK_DEFINITIONS') {
+    sendResponse(findSiteAvailible(sender.tab.url).script)
     getDefinitions();
   }
 
@@ -149,22 +150,22 @@ chrome.runtime.onMessage.addListener(async function (message, sender, sendRespon
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
-  const match = (sitesAvailibles
-    .find(avs => avs.siteRegexp
-      .find(s => {
-        let regex = new RegExp(s, "g");
-        return regex.test(tab.url);
-      }
-      )) || false);
-
+  const match = findSiteAvailible(tab.url);
 
   if (changeInfo.status == 'complete' && match) {
 
     activeSites.add(tab.url);
 
     chrome.tabs.executeScript(tabId, { file: 'content/mainContent.js' }, () => {
-      chrome.tabs.executeScript(tabId, { file: `content/customSitesScripts/${match.script}/content.js` });
-      chrome.tabs.insertCSS(tabId, { file: `content/customSitesScripts/${match.script}/webBuddyStyles.css` });
+
+
+      definitions.availibleActions.forEach(action => {
+
+        chrome.tabs.executeScript(tabId, { file: `content/customSitesScripts/${match.script}/${action.importName}.js` });
+        chrome.tabs.insertCSS(tabId, { file: `content/customSitesScripts/${match.script}/web-buddy-styles-${action.importName}.css` });
+
+      })
+
     });
 
   }
@@ -172,3 +173,14 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 });
 
 
+const findSiteAvailible = (siteURL) => {
+
+  return (sitesAvailibles
+    .find(avs => avs.siteRegexp
+      .find(s => {
+        let regex = new RegExp(s, "g");
+        return (regex.test(siteURL));
+      }
+      )) || false);
+
+}

@@ -1,4 +1,5 @@
-export * from './hashtags.js';
-export * from './images.js';
-export * from './reports.js';
-export * from './sellers.js';
+import * as instagram from "./instagram/index.js";
+import * as stackoverflow from "./stackoverflow/index.js";
+import * as mercadolibre from "./mercadolibre/index.js";
+
+export default { instagram, stackoverflow, mercadolibre }
