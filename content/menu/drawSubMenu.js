@@ -1,26 +1,16 @@
-import { hashtags, images, reports, sellers } from './subMenu/index.js';
+import * as modules from "./subMenu/index.js";
 
-export const drawSubMenu = (definitions) => {
+
+export const drawSubMenu = (definitions, currentAvalibleSite) => {
 
     definitions.availibleActions.forEach(element => {
         const wrapper = document.getElementById(element.idData);
-        switch (element.importName) {
-            case 'hashtags':
-                hashtags(element, wrapper);
-                break;
-            case 'images':
-                images();
-                break;
-            case 'reports':
-                reports();
-                break;
-            case 'sellers':
-                sellers(element, wrapper);
-                break;
-
-            default:
-                break;
+        try {
+            modules.default[currentAvalibleSite][element.importName](element, wrapper);            
+        } catch (error) {
+            console.error(`drawSubMenu.js: Site or action does not exist -> site:${currentAvalibleSite}, action:${element.importName}`);
         }
+
     });
 
 } 

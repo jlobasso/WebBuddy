@@ -1,0 +1,1 @@
+console.log("comportamiento de content de reports");
