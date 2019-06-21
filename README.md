@@ -1,14 +1,15 @@
 # Web buddy
 
-A chrome extension
+A chrome extension.
 
 ## Usage/Installation
 
-* Clone this repository
+* Clone this repository.
 * In chrome addres bar (omnibox) go to: [chrome://extensions/](chrome://extensions/)
-* On the top left corner click on "Load unpacked"
-* Browse to the recently created folder and click on "open" 
+* On the top left corner click on "Load unpacked".
+* Browse to the recently created folder and click on "open".
 * Open a new tab like https://www.instagram.com/
+* Start using web buddy extension.
 
 ## Framework
 
@@ -16,30 +17,33 @@ A chrome extension
 * Each user have some actions availibles in each site, such as 'hashtags', 'sellers', etc.
 * That information that we call ```profile``` is a JSON stored and provided by the backend.
 * The main programaticaly division is: Popup, Content and Background. 
+* Content is also divided in "Custom Site Scripts" and "Web Buddy Bar", both contained in a folder with the same name respectively. 
+* We could do ajax from anywhere in content or background, but the sender will be different in each case. See this [Same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
 
 ### Popup
 The files within the /popup folder manage the top right icon/popup behavior. Those files encapsulates HTML, JS and CSS and do not interact with other components but througth the [messaging API](https://developer.chrome.com/extensions/messaging) always through the background. Actions performed by the user within the popup are listened inside the popup.  
 
 * popup manages the login and hide/show the bar, always through the background.
-* Once the login is done backend provides the ```profile``` JSON to the background.
+* Once the login is done, backend provides the ```profile``` JSON to the background.
 
 ### Content
 
+* As we have said, content is divided in /web-buddy-bar and /custom-site-script folders.
+
 #### Custom Site Scripts
 
-* content is divided in /web-buddy-bar and /custom-site-script.
-* /custom-site-script interacts with the page itself.
-* In /custom-site-script, each site availible (defined or not in ```profile```) have a folder in wich we have also each action availible (defined or not in ```profile```). Those files/actions interacts with the page itself. E.g. /custom-site-script/instagram/hashtags.js manage the hashtag actions inside instagram. All other interaction is through background. 
+* /custom-site-script files interacts with the page itself.
+* In /custom-site-script, each site availible have a folder in wich we have also each action availible. Those files/actions interacts with the page itself. E.g. /custom-site-script/instagram/hashtags.js manage the hashtag actions inside instagram. All other interaction is through background. Remember that each site and action availible is defined in the ```profile``` JSON.
 * Actions performed on the page could affect other tabs or just the current tab.  
 * Actions performed on the page are listened by originals scripts AND content/custom-site-script scripts, so /custom-site-script scripts must fight against the original code. Previous is also valid for styles. 
 * The more we code in /custom-site-script the more we have to fight against the original code and styles.
-* We could do ajax from anywhere in content or background, but the sender will be different in each case. See this [Same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
+
 
 #### Web Buddy Bar
 
 * As /custom-site-script, each user have certain sites and certain availible actions, in /menu/subMenu each site have each action in a different file. E.g. content/menu/subMenu/instagram/hashtags.js  defines the behavior of hashtag for instagram inside the iframe. So content/menu/subMenu/instagram/hashtags.js only interacts with the <iframe> directly. All other interaction is through background.
 
-The top web buddy bar is an <iframe> that encapsulates the bar behavior, is inserted by mainContent.js. Once the <iframe> is inserted (outside the <body> tag) using: 
+The "Web Buddy Bar" is an <iframe> that encapsulates the bar behavior, is inserted by mainContent.js. Once the <iframe> is inserted (outside the <body> tag) using: 
 
 ```js 
 document.documentElement.appendChild(iframe);
