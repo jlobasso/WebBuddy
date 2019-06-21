@@ -27,16 +27,17 @@ The files within the /popup folder manage the top right icon/popup behavior. Tho
 
 #### Custom Site Scripts
 
-* content is divided in <iframe> and /customSitesScripts.
-* /customSitesScripts interacts with the page itself.
-* In /customSitesScripts, each site availible (defined or not in ```profile```) have a folder in wich we have also each action availible (defined or not in ```profile```). Those files/actions interacts with the page itself. E.g. /customSitesScripts/instagram/hashtags.js manage the hashtag actions inside instagram. All other interaction is through background. 
-* Actions performed on the page are listened by originals scripts AND content/customSitesScripts scripts, so /customSitesScripts scripts must fight against the original code. Previous is also valid for styles. 
-* The more we code in /customSitesScripts the more we have to fight against the original code and styles.
+* content is divided in /web-buddy-bar and /custom-site-script.
+* /custom-site-script interacts with the page itself.
+* In /custom-site-script, each site availible (defined or not in ```profile```) have a folder in wich we have also each action availible (defined or not in ```profile```). Those files/actions interacts with the page itself. E.g. /custom-site-script/instagram/hashtags.js manage the hashtag actions inside instagram. All other interaction is through background. 
+* Actions performed on the page could affect other tabs or just the current tab.  
+* Actions performed on the page are listened by originals scripts AND content/custom-site-script scripts, so /custom-site-script scripts must fight against the original code. Previous is also valid for styles. 
+* The more we code in /custom-site-script the more we have to fight against the original code and styles.
 * We could do ajax from anywhere in content or background, but the sender will be different in each case. See this [Same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
 
-#### Iframe
+#### Web Buddy Bar
 
-* As /customSitesScripts, each user have certain sites and certain availible actions, in /menu/subMenu each site have each action in a different file. E.g. content/menu/subMenu/instagram/hashtags.js  defines the behavior of hashtag for instagram inside the iframe. So content/menu/subMenu/instagram/hashtags.js only interacts with the <iframe> directly. All other interaction is through background.
+* As /custom-site-script, each user have certain sites and certain availible actions, in /menu/subMenu each site have each action in a different file. E.g. content/menu/subMenu/instagram/hashtags.js  defines the behavior of hashtag for instagram inside the iframe. So content/menu/subMenu/instagram/hashtags.js only interacts with the <iframe> directly. All other interaction is through background.
 
 The top web buddy bar is an <iframe> that encapsulates the bar behavior, is inserted by mainContent.js. Once the <iframe> is inserted (outside the <body> tag) using: 
 
@@ -52,8 +53,8 @@ bodyStyle.transform = 'translateY(' + normalHeight +'px )'
 
 
 * iframe.js and the files within /menu folder do not interact with the page itself but througth the [messaging API](https://developer.chrome.com/extensions/messaging)   
-* Remember that files within /customSiteScripts do interact directly with the page itself (for instance instagram.com).
-* <iframe> content is shared by all tabs, but they don't share the state. That means if a user opens a sub-menu, other tabs do not change, but if a user perform an action like adding a hashtag to follow, other bar tabs change.    
+* Remember that files within /custom-site-script do interact directly with the page itself (for instance instagram.com).
+* Actions performed on the /web-buddy-bar could affect other tabs or just the current tab. <iframe> content is shared by all tabs, but they don't share the state. That means if a user opens a sub-menu, other tabs do not change, but if a user perform an action like adding a hashtag to follow, other bar tabs change.    
 * Actions performed by user inside the <iframe> are listened inside iframe and menu files and are completely encapsulated there.
 
 ### Background
