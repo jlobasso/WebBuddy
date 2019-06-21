@@ -55,7 +55,7 @@ chrome.runtime.sendMessage( JSON_MESSAJE_HERE,(response)=>{
 });
 ```
 
-* from anywhere to all tabs content 
+* from anywhere to all tabs content, {} means "all tabs"
 
 ```js
 chrome.tabs.query({}, function (tabs) {
@@ -65,7 +65,7 @@ chrome.tabs.query({}, function (tabs) {
   });
 ```
 
-* from anywhere to active tab content 
+* from anywhere to active tab content, { active: true, currentWindow: true } means "just the current active tab"
 
 ```js
 chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -106,5 +106,86 @@ The easiest way allowed by the chrome API messaging to make a request and get a 
 
 ## Content flow
 
+* Since listeners like ```chrome.runtime.onMessage``` listen any message from anywhere we follow this structure:
+
+```js
+{target: WHO, action: WHAT, value: HOW, data: DETAIL}
+```
+
+example:
+
+from some tab send a message to all tabs that they have to hide the bar
+
+```js
+{target: 'background', action: 'BAR_VISIVILITY', value: 'HIDE_BAR'}
+```
+
+### Iframe bar say "hello!" to backend database
+
+Summary: iframe -> background -> backend
+
+content/menu/subMenu/sellers.js -> background.js -> backend -> background.js -> content/menu/subMenu/sellers.js
+
+#### in sellers.js
+
+```js
+//SEND MESSAGE
+chrome.runtime.sendMessage({target: 'background', 
+                            action: 'SAY_SOMETHING', 
+                            value: 'hello!'});
+```
+
+```js
+//LISTEN TO THE REPLAY OR AN INDEPENDENT MESSAGE
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+        if(message.target === 'content'){
+                switch (message.action) {
+            case 'SAY_SOMETHING':     
+                    //HERE A BACKGROUND MESSAGE           
+                    console.log(message.value);
+                break;
+            case 'OTHER_ACTION':
+                //Other action
+                break;
+            }
+        }
+}
+```
+
+#### in backgroud.js
 
 
+```js
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+        if(message.target === 'background'){
+                switch (message.action) {
+            case 'SAY_SOMETHING':
+                
+                    fetch(`http://mybackend-example.com?message=${message.value}`)
+                    .then(function(response) {
+                        return response.json();
+                    })
+                    .then(function(backendGreeting) {
+                        //SEND MESSAGE TO OTHER FUNCTION OR
+                        // chrome.runtime.sendMessage() HERE.
+                        //NOT sendResponse() BECAUSE THE CHANNEL WAS CLOSED
+                        someFunction(backendGreeting);
+                    });
+
+                break;
+            case 'OTHER_ACTION':
+                //Other action
+                break;
+            }
+        }
+}
+```
+
+
+```js
+const someFunction = (textMessage) =>{
+    chrome.runtime.sendMessage({target: 'content', 
+                                action: 'SAY_SOMETHING', 
+                                value: textMessage});
+}
+```
