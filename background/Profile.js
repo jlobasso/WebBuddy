@@ -16,7 +16,7 @@ class Profile {
         localStorage.setItem('web-buddy-profile', JSON.stringify(profile));
     }
 
-    static getUserProfile = async () => {
+    static getUserProfile = () => {
         if (localStorage.hasOwnProperty('web-buddy-profile')) {
             return JSON.parse(localStorage['web-buddy-profile']);
         } else {

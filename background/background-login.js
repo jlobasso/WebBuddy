@@ -10,10 +10,9 @@ class BackgroundLogIn {
         const token = Profile.getToken();
 
         /* TODO: HACER FETCH PARA VER SI EL TOKEN ES VALIDO Y/O SI HAY SESSION ACTIVA*/
-        /* TODO: SI NO ESTA ACTIVA LA SESSION, ENVIAR AL LOGIN E INFORMAR A TODOS*/
         /* TODO: DEBERIAMOS ACTUALIZAR EL PROFILE Y SITES AVAILIBLES ?? */
 
-        if (!token) {
+        if (!token || !Profile.getUserProfile() || !Profile.getSitesAvailibles()) {
             BackgroundLogIn.sendSessionStatus(false);
         }
         else {
@@ -45,8 +44,6 @@ class BackgroundLogIn {
                 });
             });
         } else {
-
-            console.log(Profile.getUserProfile().username);
 
             /* INFORMAMOS AL POPUP QUE HAY SESSION*/
             chrome.runtime.sendMessage({
