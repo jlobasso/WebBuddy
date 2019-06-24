@@ -166,11 +166,14 @@ class BackgroundLogIn {
     }
 
     static logOut = () => {
-        /* TODO: AGREGAR COMPORTAMIENTO*/
-        /*REMOVEMOS PROFILE*/
+        /* TODO: HACER FETCH PARA DESHABILITAR EL TOKEN*/
+
+        /*REMOVEMOS TODA LA INFORMACION*/
         Profile.setToken(false);
         Profile.setSitesAvailibles(false);
         Profile.setUserProfile(false);
+
+        BackgroundLogIn.sendSessionStatus(false);
     }
 }
 
@@ -187,6 +190,14 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                 BackgroundLogIn.logIn(message.username, message.password);
 
                 sendResponse('LOGIN SENT');
+
+                break;
+
+            case 'LOGOUT':
+
+                BackgroundLogIn.logOut();
+
+                sendResponse('LOGOUT SENT');
 
                 break;
 

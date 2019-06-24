@@ -1,3 +1,5 @@
+const login = document.getElementById("submit");
+const logout = document.getElementById("logout");
 const logInForm = document.getElementsByClassName("log-in-form")[0];
 const logedInWrapper = document.getElementsByClassName("loged-in")[0];
 const info = logedInWrapper.getElementsByClassName("titles")[0];
@@ -13,7 +15,7 @@ chrome.runtime.sendMessage({
 });
 
 
-document.getElementById("submit").addEventListener("click", function () {
+login.addEventListener("click", function () {
 
   chrome.runtime.sendMessage({
     target: 'background-login',
@@ -25,6 +27,18 @@ document.getElementById("submit").addEventListener("click", function () {
   });
 
 });
+
+logout.addEventListener("click", function () {
+
+  chrome.runtime.sendMessage({
+    target: 'background-login',
+    action: 'LOGOUT'
+  }, (res) => {
+    console.log(res)
+  });
+
+});
+
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 

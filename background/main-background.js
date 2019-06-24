@@ -36,6 +36,14 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
   if (changeInfo.status == 'complete' && match) {
 
+
+    chrome.browserAction.setPopup({
+      tabId: tabId,
+      popup: 'popup/popup.html'
+    });
+
+    // chrome.browserAction.setIcon({tabId: tabId,path:{"16":"popup/images/get_pulpou16.png"}});
+
     activeSites.add(tab.url);
 
     chrome.tabs.executeScript(tabId, { file: 'content/mainContent.js' }, () => {
@@ -50,6 +58,13 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
     });
 
+  } else {
+    chrome.browserAction.setPopup({
+      tabId: tabId,
+      popup: ''
+    });
+    // chrome.browserAction.disable(tabId);
+    // chrome.browserAction.setIcon({path:{"16":"popup/images/pulpou_disabled.png"}});
   }
 
 });
@@ -57,17 +72,17 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
 const findSiteAvailible = (siteURL) => {
 
-  const sitesAvailibles =  (Profile.getSitesAvailibles() || []);
+  const sitesAvailibles = (Profile.getSitesAvailibles() || []);
 
   console.log(sitesAvailibles);
 
-    return (sitesAvailibles
-      .find(avs => avs.siteRegexp
-        .find(s => {
-          let regex = new RegExp(s, "g");
-          return (regex.test(siteURL));
-        }
-        )) || false);  
+  return (sitesAvailibles
+    .find(avs => avs.siteRegexp
+      .find(s => {
+        let regex = new RegExp(s, "g");
+        return (regex.test(siteURL));
+      }
+      )) || false);
 
 
 }
