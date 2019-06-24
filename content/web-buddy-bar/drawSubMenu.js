@@ -1,9 +1,9 @@
 import * as modules from "./subMenu/index.js";
 
 
-export const drawSubMenu = (definitions, currentAvalibleSite) => {
+export const drawSubMenu = (profile, currentAvalibleSite) => {
 
-    definitions.availibleActions.forEach(element => {
+    profile.availibleActions.forEach(element => {
         const wrapper = document.getElementById(element.idData);
         try {
             modules.default[currentAvalibleSite][element.importName](element, wrapper);            

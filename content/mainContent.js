@@ -2,7 +2,7 @@
 if(!window.contentScriptInjected){
     contentScriptInjected = true;
     const iframe = document.createElement('iframe');
-    iframe.src = chrome.extension.getURL('./content/pulpoNav.html');
+    iframe.src = chrome.extension.getURL('./content/web-buddy-bar/pulpoNav.html');
     iframe.id = "webBuddyByPulpou"
     document.documentElement.appendChild(iframe);
 

@@ -1,14 +1,14 @@
-import {showBar, hideBar, updateDefinitions} from './commonActions.js';
+import {showBar, hideBar, updateProfile} from './commonActions.js';
 
-export const drawMenu = (definitions) => {
+export const drawMenu = (profile) => {
     
     const menuWrapper = document.getElementsByClassName("menuWrapper")[0];
     const subMenuWrapper = document.getElementsByClassName("barSubMenuWrapper")[0];
     
     menuWrapper.innerHTML = "";
-    updateDefinitions(definitions);
+    updateProfile(profile);
 
-    definitions.availibleActions.forEach(itemMenu => {
+    profile.availibleActions.forEach(itemMenu => {
         const item = document.createElement("div");
         item.id = itemMenu.idMenu;
         item.classList.add('itemMenu');

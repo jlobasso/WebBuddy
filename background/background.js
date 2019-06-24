@@ -1,4 +1,4 @@
-let definitions = {
+let profile = {
   availibleActions: [
     {
       name: '#HASHTAGS',
@@ -80,15 +80,15 @@ let activeSites = new Set();
 
 
 chrome.runtime.onInstalled.addListener(function () {
-  definitions = definitions;
+  profile = profile;
 });
 
-const getDefinitions = async () => {
+const getProfile = async () => {
   const def = await new Promise(function (resolve, reject) {
-    setTimeout(() => resolve(definitions), 2000);
+    setTimeout(() => resolve(profile), 2000);
   });
 
-  const message = { target: 'mainContent', action: 'SEND_DEFINITIONS', def };
+  const message = { target: 'mainContent', action: 'SEND_PROFILE', def };
 
   chrome.tabs.query({ url: [...activeSites.values()] }, function (tabs) {
     console.log("TABS TO NOTICE " + tabs.length)
@@ -102,9 +102,9 @@ const getDefinitions = async () => {
 
 chrome.runtime.onMessage.addListener(async function (message, sender, sendResponse) {
 
-  if (message.target == "back" && message.action === 'ASK_DEFINITIONS') {
+  if (message.target == "back" && message.action === 'ASK_PROFILE') {
     sendResponse(findSiteAvailible(sender.tab.url).script)
-    getDefinitions();
+    getProfile();
   }
 
   if (message.target == "back" && message.action === 'BAR_VISIBILITY') {
@@ -116,7 +116,7 @@ chrome.runtime.onMessage.addListener(async function (message, sender, sendRespon
 
   if (message.target == "back" && message.action === 'HASHTAG_ADDED') {
 
-    definitions.availibleActions.forEach(a => {
+    profile.availibleActions.forEach(a => {
       if (a.importName === 'hashtags') {
         //TODO: FALTA AGREGAR SITE
         sendResponse(a.data.some(h => h.name === message.value));
@@ -127,7 +127,7 @@ chrome.runtime.onMessage.addListener(async function (message, sender, sendRespon
 
   if (message.target == "back" && message.action === 'ADD_HASHTAG') {
 
-    definitions.availibleActions.forEach(a => {
+    profile.availibleActions.forEach(a => {
       if (a.importName === 'hashtags') {
         //TODO: FALTA AGREGAR SITE
         a.data.push({
@@ -136,7 +136,7 @@ chrome.runtime.onMessage.addListener(async function (message, sender, sendRespon
           data: []
         });
         sendResponse(true);
-        getDefinitions();
+        getProfile();
       }
     })
 
@@ -162,10 +162,10 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     chrome.tabs.executeScript(tabId, { file: 'content/mainContent.js' }, () => {
 
 
-      definitions.availibleActions.forEach(action => {
+      profile.availibleActions.forEach(action => {
 
-        chrome.tabs.executeScript(tabId, { file: `content/customSitesScripts/${match.script}/${action.importName}.js` });
-        chrome.tabs.insertCSS(tabId, { file: `content/customSitesScripts/${match.script}/web-buddy-styles-${action.importName}.css` });
+        chrome.tabs.executeScript(tabId, { file: `content/custom-site-scripts/${match.script}/${action.importName}.js` });
+        chrome.tabs.insertCSS(tabId, { file: `content/custom-site-scripts/${match.script}/web-buddy-styles-${action.importName}.css` });
 
       })
 

@@ -11,8 +11,8 @@ let defTmp = [];
 export const defaultMenu = ['settings-button'];
 export const subMenuContent = document.getElementsByClassName("menu-subMenu");
 
-export const updateDefinitions = (newDefinitions) => {
-    defTmp = newDefinitions;
+export const updateProfile = (newProfile) => {
+    defTmp = newProfile;
 }
 
 export const getActionElement = (prop, value) => {

@@ -1,22 +1,22 @@
-import {setCommonActions} from './menu/commonActions.js';
-import { drawMenu } from './menu/drawMenu.js'
-import { drawSubMenu } from './menu/drawSubMenu.js'
+import {setCommonActions} from './commonActions.js';
+import { drawMenu } from './drawMenu.js'
+import { drawSubMenu } from './drawSubMenu.js'
 
-let definitions = { availibleActions: [] };
+let profile = { availibleActions: [] };
 let currentAvalibleSite = null;
 
 setCommonActions();
 
 /*SE SOLICITAN LAS DEFINICIONES AL BACKGROUD*/
-chrome.runtime.sendMessage({ target: 'back', action: 'ASK_DEFINITIONS' },(currentUrl)=>{
+chrome.runtime.sendMessage({ target: 'back', action: 'ASK_PROFILE' },(currentUrl)=>{
     currentAvalibleSite = currentUrl;
 });
 
 /*EL BACKGROUND ENVIA LAS DEFINICIONES*/
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-    if (message.target === 'mainContent' && message.action === 'SEND_DEFINITIONS') {
-        if(JSON.stringify(definitions) !== JSON.stringify(message.def)){
-            definitions =  message.def;           
+    if (message.target === 'mainContent' && message.action === 'SEND_PROFILE') {
+        if(JSON.stringify(profile) !== JSON.stringify(message.def)){
+            profile =  message.def;           
             drawMenu(message.def);
             drawSubMenu(message.def, currentAvalibleSite);
         }
