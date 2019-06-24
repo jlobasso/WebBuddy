@@ -1,7 +1,7 @@
 const marker = document.getElementById("marker");
 const subMenuWrapper = document.getElementsByClassName("barSubMenuWrapper")[0];
 const barVisibility = {
-    target: 'back',
+    target: 'background-web-buddy-bar',
     action: 'BAR_VISIBILITY',
     value: null,
     data: {}

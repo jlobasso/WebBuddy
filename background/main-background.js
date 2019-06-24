@@ -88,7 +88,7 @@ const getProfile = async () => {
     setTimeout(() => resolve(profile), 2000);
   });
 
-  const message = { target: 'mainContent', action: 'SEND_PROFILE', def };
+  const message = { target: 'main-content', action: 'SEND_PROFILE', def };
 
   chrome.tabs.query({ url: [...activeSites.values()] }, function (tabs) {
     console.log("TABS TO NOTICE " + tabs.length)
@@ -102,51 +102,25 @@ const getProfile = async () => {
 
 chrome.runtime.onMessage.addListener(async function (message, sender, sendResponse) {
 
-  if (message.target == "back" && message.action === 'ASK_PROFILE') {
-    sendResponse(findSiteAvailible(sender.tab.url).script)
-    getProfile();
-  }
+  if (message.target == "main-background") {
 
-  if (message.target == "back" && message.action === 'BAR_VISIBILITY') {
-    message.target = 'mainContent';
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, message);
-    });
-  }
+    switch (message.action) {
 
-  if (message.target == "back" && message.action === 'HASHTAG_ADDED') {
-
-    profile.availibleActions.forEach(a => {
-      if (a.importName === 'hashtags') {
-        //TODO: FALTA AGREGAR SITE
-        sendResponse(a.data.some(h => h.name === message.value));
-      }
-    })
-
-  }
-
-  if (message.target == "back" && message.action === 'ADD_HASHTAG') {
-
-    profile.availibleActions.forEach(a => {
-      if (a.importName === 'hashtags') {
-        //TODO: FALTA AGREGAR SITE
-        a.data.push({
-          name: message.value,
-          type: null,
-          data: []
-        });
-        sendResponse(true);
+      case 'ASK_PROFILE':
+        sendResponse(findSiteAvailible(sender.tab.url).script)
         getProfile();
-      }
-    })
+        break;
 
-  }
+      case 'REDIRECT_TAB':
+        message.target = 'main-content';
+        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+          chrome.tabs.sendMessage(tabs[0].id, message);
+        });
 
-  if (message.target == "back" && message.action === 'REDIRECT_TAB') {
-    message.target = 'mainContent';
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, message);
-    });
+      default:
+        break;
+    }
+
   }
 
 })

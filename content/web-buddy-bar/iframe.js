@@ -8,7 +8,7 @@ let currentAvalibleSite = null;
 setCommonActions();
 
 /*SE SOLICITAN LAS DEFINICIONES AL BACKGROUD*/
-chrome.runtime.sendMessage({ target: 'back', action: 'ASK_PROFILE' },(currentUrl)=>{
+chrome.runtime.sendMessage({ target: 'main-background', action: 'ASK_PROFILE' },(currentUrl)=>{
     currentAvalibleSite = currentUrl;
 });
 

@@ -29,7 +29,7 @@ export const sellers = (element, wrapper) => {
             dataSubMenuWrapper.style.display = 'block';
             chrome.runtime.sendMessage(
                 {
-                    target: 'back',
+                    target: 'background-web-buddy-bar',
                     action: 'BAR_VISIBILITY',
                     value: 'showSubMenuData',
                     data: { height: dataSubMenuWrapper.offsetHeight }

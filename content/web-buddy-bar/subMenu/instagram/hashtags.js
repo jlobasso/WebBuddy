@@ -13,7 +13,7 @@ export const hashtags = (element, wrapper) => {
             const redirect = `https://www.instagram.com/explore/tags/${hashtag}/`;
 
             chrome.runtime.sendMessage({
-                target: 'back',
+                target: 'main-background',
                 action: 'REDIRECT_TAB',
                 value: redirect
             });

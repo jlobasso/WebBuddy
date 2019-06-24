@@ -37,7 +37,7 @@ if (hashtagElement.length) {
     hashtagElement[0].appendChild(hashtagToolTip);
     
     
-    chrome.runtime.sendMessage({ target: 'back', action: 'HASHTAG_ADDED', site: 'instagram', value: hashtagText }, (isHashtagAdded) => {
+    chrome.runtime.sendMessage({ target: 'background-web-buddy-bar', action: 'HASHTAG_ADDED', site: 'instagram', value: hashtagText }, (isHashtagAdded) => {
         
         var textElement = hashtagToolTip.getElementsByClassName("web-budy-hashtag-text")[0];
         if (!isHashtagAdded) {
@@ -71,7 +71,7 @@ var addHashTag = () => {
     //TODO: HACER ESTO MEJOR
     hashtagText = "#"+hashtagText.split("#")[1];
 
-    chrome.runtime.sendMessage({ target: 'back', action: 'ADD_HASHTAG', site: 'instagram', value: hashtagText }, (isHashtagAdded) => {
+    chrome.runtime.sendMessage({ target: 'background-web-buddy-bar', action: 'ADD_HASHTAG', site: 'instagram', value: hashtagText }, (isHashtagAdded) => {
 
 
         var textElement = hashtagToolTip.getElementsByClassName("web-budy-hashtag-text")[0];

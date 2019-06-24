@@ -6,8 +6,9 @@
   "default_locale": "en",
   "background": {
     "scripts": [
-      "background/background.js",
-      "background/backgroundOauth.js"
+      "background/background-login.js",
+      "background/main-background.js",
+      "background/background-web-buddy-bar.js"
     ],
     "persistent": false
   },
