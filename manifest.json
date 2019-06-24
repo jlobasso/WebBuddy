@@ -1,11 +1,12 @@
 {
   "name": "__MSG_pulpouName__",
-  "version": "1.0",
+  "version": "1.1",
   "description": "__MSG_pulpouDescription__",
   "manifest_version": 2,
   "default_locale": "en",
   "background": {
     "scripts": [
+      "background/Profile.js",
       "background/background-login.js",
       "background/main-background.js",
       "background/background-web-buddy-bar.js"
@@ -18,23 +19,22 @@
     "tabs",
     "https://*/",
     "http://*/",
-    "declarativeContent",
     "contextMenus"
   ],
-  "page_action": {
-    "default_popup": "popupWindows/popup.html",
+  "browser_action": {
+    "default_popup": "popup/popup.html",
     "default_icon": {
-      "16": "popupWindows/images/get_pulpou16.png",
-      "32": "popupWindows/images/get_pulpou32.png",
-      "48": "popupWindows/images/get_pulpou48.png",
-      "128": "popupWindows/images/get_pulpou128.png"
+      "16": "popup/images/get_pulpou16.png",
+      "32": "popup/images/get_pulpou32.png",
+      "48": "popup/images/get_pulpou48.png",
+      "128": "popup/images/get_pulpou128.png"
     }
   },
   "icons": {
-    "16": "popupWindows/images/get_pulpou16.png",
-    "32": "popupWindows/images/get_pulpou32.png",
-    "48": "popupWindows/images/get_pulpou48.png",
-    "128": "popupWindows/images/get_pulpou128.png"
+    "16": "popup/images/get_pulpou16.png",
+    "32": "popup/images/get_pulpou32.png",
+    "48": "popup/images/get_pulpou48.png",
+    "128": "popup/images/get_pulpou128.png"
   },
   "web_accessible_resources": [
     "content/web-buddy-bar/pulpoNav.html"

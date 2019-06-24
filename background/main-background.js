@@ -1,104 +1,4 @@
-let profile = {
-  availibleActions: [
-    {
-      name: '#HASHTAGS',
-      importName: 'hashtags',
-      idMenu: 'hashtag_pulpou_menu',
-      idData: 'hashtag_sub_menu',
-      data: [
-        {
-          name: '#joicobrazil',
-          type: null,
-          data: []
-        },
-        {
-          name: '#autosaescala',
-          type: null,
-          data: []
-        },
-        {
-          name: '#theflash',
-          type: null,
-          data: []
-        },
-        {
-          name: '#spacexploration',
-          type: null,
-          data: []
-        }
-      ]
-    },
-    {
-      name: 'SELLERS',
-      importName: 'sellers',
-      idMenu: 'sellers_pulpou_menu',
-      idData: 'sellers_sub_menu',
-      data: [{
-        name: 'WHITELIST',
-        type: 'table',
-        data: [1, 2, 3, 4, 5]
-      },
-      {
-        name: 'BLACKLIST',
-        type: 'table',
-        data: ["uno", "dos", "tres", "cuatro", "cinco"]
-      }]
-
-    },
-    {
-      name: 'REPORTS',
-      importName: 'reports',
-      idMenu: 'reports_pulpou_menu',
-      idData: 'reports_sub_menu',
-      data: []
-
-    },
-    {
-      name: 'IMAGES',
-      importName: 'images',
-      idMenu: 'images_pulpou_menu',
-      idData: 'images_sub_menu',
-      data: []
-    }
-  ]
-};
-
-const sitesAvailibles = [{
-  siteRegexp: ['http.:\/\/www.instagram.com.*\/*'],
-  script: 'instagram'
-},
-{
-  siteRegexp: ['http.:\/\/stackoverflow.com\/.*'],
-  script: 'stackoverflow'
-},
-{
-  siteRegexp: ['http.:\/\/www\.mercadoli[b|v]re\.com.*'],
-  script: 'mercadolibre'
-}];
-
 let activeSites = new Set();
-
-
-chrome.runtime.onInstalled.addListener(function () {
-  profile = profile;
-});
-
-const getProfile = async () => {
-  const def = await new Promise(function (resolve, reject) {
-    setTimeout(() => resolve(profile), 2000);
-  });
-
-  const message = { target: 'main-content', action: 'SEND_PROFILE', def };
-
-  chrome.tabs.query({ url: [...activeSites.values()] }, function (tabs) {
-    console.log("TABS TO NOTICE " + tabs.length)
-    tabs.forEach((tab, i) => {
-      chrome.tabs.sendMessage(tab.id, message);
-    });
-  });
-
-  return def;
-}
 
 chrome.runtime.onMessage.addListener(async function (message, sender, sendResponse) {
 
@@ -108,7 +8,7 @@ chrome.runtime.onMessage.addListener(async function (message, sender, sendRespon
 
       case 'ASK_PROFILE':
         sendResponse(findSiteAvailible(sender.tab.url).script)
-        getProfile();
+        getUserProfile();
         break;
 
       case 'REDIRECT_TAB':
@@ -126,6 +26,11 @@ chrome.runtime.onMessage.addListener(async function (message, sender, sendRespon
 })
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+
+  //Nos fijamos si esta logueado y/o si es valida la session
+
+  //TODO: El login mismo se deberia encargar de quitar todo
+  BackgroundLogIn.checkSession();
 
   const match = findSiteAvailible(tab.url);
 
@@ -152,12 +57,17 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
 const findSiteAvailible = (siteURL) => {
 
-  return (sitesAvailibles
-    .find(avs => avs.siteRegexp
-      .find(s => {
-        let regex = new RegExp(s, "g");
-        return (regex.test(siteURL));
-      }
-      )) || false);
+  const sitesAvailibles =  (Profile.getSitesAvailibles() || []);
+
+  console.log(sitesAvailibles);
+
+    return (sitesAvailibles
+      .find(avs => avs.siteRegexp
+        .find(s => {
+          let regex = new RegExp(s, "g");
+          return (regex.test(siteURL));
+        }
+        )) || false);  
+
 
 }

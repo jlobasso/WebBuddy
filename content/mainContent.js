@@ -1,5 +1,5 @@
 /* THIS SCRIPT IS EXECUTED ONCE FOR TAB*/
-if(!window.contentScriptInjected){
+if (!window.contentScriptInjected) {
     contentScriptInjected = true;
     const iframe = document.createElement('iframe');
     iframe.src = chrome.extension.getURL('./content/web-buddy-bar/pulpoNav.html');
@@ -9,10 +9,10 @@ if(!window.contentScriptInjected){
     const normalHeight = 100;
     const maxHeight = 190;
     const bodyStyle = document.body.style;
-    
-    
+
+
     iframe.addEventListener("load", () => {
-        iframe.style.height = normalHeight+'px';
+        iframe.style.height = normalHeight + 'px';
         iframe.style.width = '101%';
         iframe.style.position = 'fixed';
         iframe.style.top = '0';
@@ -21,34 +21,43 @@ if(!window.contentScriptInjected){
         iframe.style.margin = '0px';
         iframe.style.padding = '0px';
         iframe.style.border = 'none';
-        bodyStyle.transform = 'translateY(' + normalHeight +'px )';
+        bodyStyle.transform = 'translateY(' + normalHeight + 'px )';
     });
 
 
     chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-    
-        if (message.target == "mainContent" && message.action === 'BAR_VISIBILITY') {
-    
-            if (message.value === 'showBar') {
-                iframe.style.height = maxHeight +'px';
-                bodyStyle.transform = 'translateY(' + maxHeight +'px)';
+
+        if (message.target == "main-content") {
+
+            switch (message.action) {
+
+                case 'BAR_VISIBILITY':
+                    if (message.value === 'showBar') {
+                        iframe.style.height = maxHeight + 'px';
+                        bodyStyle.transform = 'translateY(' + maxHeight + 'px)';
+                    }
+                    if (message.value === 'hideBar') {
+                        iframe.style.height = normalHeight + 'px';
+                        bodyStyle.transform = 'translateY(' + normalHeight + 'px)';
+                    }
+
+                    if (message.value === 'showSubMenuData') {
+                        const fullHeight = +maxHeight + message.data.height;
+                        iframe.style.height = fullHeight + 'px';
+                        bodyStyle.transform = 'translateY(' + fullHeight + 'px)';
+                    }
+                    break;
+
+                case 'REDIRECT_TAB':
+                    window.location = message.value;
+
+                default:
+                    break;
             }
-            if (message.value === 'hideBar') {
-                iframe.style.height = normalHeight +'px';
-                bodyStyle.transform = 'translateY(' + normalHeight +'px)';
-            }
-    
-            if (message.value === 'showSubMenuData') {
-                const fullHeight = +maxHeight + message.data.height;
-                iframe.style.height = fullHeight+'px';
-                bodyStyle.transform = 'translateY(' + fullHeight +'px)';
-            }
+
         }
 
-        if (message.target == "mainContent" && message.action === 'REDIRECT_TAB') {
-            window.location = message.value; 
-        }
-    
+
     });
 
 }

@@ -1,0 +1,20 @@
+.titles{
+  font-size: 20px;
+}
+
+.container{
+  min-width: 314px;
+  text-align: center;
+} 
+
+.log-in-form{
+  text-align: left;
+}
+
+.btn.btn-primary{
+  margin: 15px 0;
+}
+
+.hide{
+  display: none;
+}

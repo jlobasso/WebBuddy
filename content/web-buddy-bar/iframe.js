@@ -14,7 +14,7 @@ chrome.runtime.sendMessage({ target: 'main-background', action: 'ASK_PROFILE' },
 
 /*EL BACKGROUND ENVIA LAS DEFINICIONES*/
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-    if (message.target === 'mainContent' && message.action === 'SEND_PROFILE') {
+    if (message.target === 'main-content' && message.action === 'SEND_PROFILE') {
         if(JSON.stringify(profile) !== JSON.stringify(message.def)){
             profile =  message.def;           
             drawMenu(message.def);

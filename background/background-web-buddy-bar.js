@@ -5,7 +5,7 @@ chrome.runtime.onMessage.addListener(async function (message, sender, sendRespon
         switch (message.action) {
 
             case 'BAR_VISIBILITY':
-                message.target = 'mainContent';
+                message.target = 'main-content';
                 chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
                     chrome.tabs.sendMessage(tabs[0].id, message);
                 });
