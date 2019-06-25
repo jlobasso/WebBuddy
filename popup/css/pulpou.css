@@ -14,6 +14,9 @@
 .btn.btn-primary{
   margin: 15px 0;
 }
+.site-not-available{
+text-align: center;
+}
 
 .hide{
   display: none;

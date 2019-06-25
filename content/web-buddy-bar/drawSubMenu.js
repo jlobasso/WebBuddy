@@ -3,7 +3,7 @@ import * as modules from "./subMenu/index.js";
 
 export const drawSubMenu = (profile, currentAvalibleSite) => {
 
-    profile.availibleActions.forEach(element => {
+    profile.availableActions.forEach(element => {
         const wrapper = document.getElementById(element.idData);
         try {
             modules.default[currentAvalibleSite][element.importName](element, wrapper);            

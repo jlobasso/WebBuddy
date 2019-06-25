@@ -12,7 +12,7 @@ chrome.runtime.onMessage.addListener(async function (message, sender, sendRespon
                 break;
 
             case 'HASHTAG_ADDED':
-                profile.availibleActions.forEach(a => {
+                profile.availableActions.forEach(a => {
                     if (a.importName === 'hashtags') {
                         //TODO: FALTA AGREGAR SITE
                         sendResponse(a.data.some(h => h.name === message.value));
@@ -21,7 +21,7 @@ chrome.runtime.onMessage.addListener(async function (message, sender, sendRespon
                 break;
 
             case 'ADD_HASHTAG':
-                profile.availibleActions.forEach(a => {
+                profile.availableActions.forEach(a => {
                     if (a.importName === 'hashtags') {
                         //TODO: FALTA AGREGAR SITE
                         a.data.push({

@@ -2,7 +2,7 @@ import {setCommonActions} from './commonActions.js';
 import { drawMenu } from './drawMenu.js'
 import { drawSubMenu } from './drawSubMenu.js'
 
-let profile = { availibleActions: [] };
+let profile = { availableActions: [] };
 let currentAvalibleSite = null;
 
 setCommonActions();

@@ -5,6 +5,7 @@ const logedInWrapper = document.getElementsByClassName("loged-in")[0];
 const info = logedInWrapper.getElementsByClassName("titles")[0];
 const username = document.getElementById("username");
 const password = document.getElementById("password");
+const notAvailibleSite = document.getElementsByClassName("site-not-available")[0];
 
 
 
@@ -48,7 +49,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 
         if (message.value === 'show') {
           logInForm.classList.remove("hide");
-          logedInWrapper.classList.add("hide");                    
+          logedInWrapper.classList.add("hide");
         }
 
         if (message.value === 'hide') {

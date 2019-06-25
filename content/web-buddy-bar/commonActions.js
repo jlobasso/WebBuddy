@@ -17,7 +17,7 @@ export const updateProfile = (newProfile) => {
 
 export const getActionElement = (prop, value) => {
 
-    return defTmp.availibleActions.reduce((a, c) => {
+    return defTmp.availableActions.reduce((a, c) => {
         if (prop in c && c[prop] === value) {
             a.push(c)
         }

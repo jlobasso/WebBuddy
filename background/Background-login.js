@@ -13,9 +13,11 @@ class BackgroundLogIn {
         /* TODO: DEBERIAMOS ACTUALIZAR EL PROFILE Y SITES AVAILIBLES ?? */
 
         if (!token || !Profile.getUserProfile()) {
+            BackgroundLogIn.updateIcons(false);
             BackgroundLogIn.sendSessionStatus(false);
         }
         else {
+            BackgroundLogIn.updateIcons(true);
             BackgroundLogIn.sendSessionStatus(true);
         }
 
@@ -86,7 +88,7 @@ class BackgroundLogIn {
                 site: 'instagram',
                 script: 'instagram',
                 siteRegexp: ['http.:\/\/www.instagram.com.*\/*'],
-                availibleActions: [
+                availableActions: [
                     {
                         name: '#HASHTAGS',
                         importName: 'hashtags',
@@ -165,7 +167,7 @@ class BackgroundLogIn {
                 site: 'stackoverflow',
                 script: 'stackoverflow',
                 siteRegexp: ['http.:\/\/stackoverflow.com\/.*'],
-                availibleActions: [
+                availableActions: [
                     {
                         name: 'Gallery',
                         importName: 'gallery',
@@ -180,7 +182,7 @@ class BackgroundLogIn {
                 site: 'mercadolibre',
                 script: 'mercadolibre',
                 siteRegexp: ['http.:\/\/www\.mercadoli[b|v]re\.com.*'],
-                availibleActions: [
+                availableActions: [
                     {
                         name: 'BUSQUEDAS',
                         importName: 'hashtags',
@@ -219,10 +221,13 @@ class BackgroundLogIn {
         Profile.setToken("abcdefghi");
 
         BackgroundLogIn.sendSessionStatus(true);
+        BackgroundLogIn.updateIcons(true);
     }
 
     static logOut = () => {
         /* TODO: HACER FETCH PARA DESHABILITAR EL TOKEN*/
+
+        BackgroundLogIn.updateIcons(false);
 
         /*REMOVEMOS TODA LA INFORMACION*/
         Profile.setToken(false);
@@ -230,4 +235,68 @@ class BackgroundLogIn {
 
         BackgroundLogIn.sendSessionStatus(false);
     }
+
+    static updateIcons = (loguedIn) => {
+
+        console.log(`esta logueado?${loguedIn}`);
+
+        if (loguedIn) {
+            chrome.tabs.query({}, function (tabs) {
+
+                tabs.forEach(tab => {
+                    const matchSite = BackgroundLogIn.findSiteAvailible(tab.url);
+
+                    if (matchSite) {
+                        chrome.browserAction.setPopup({
+                            tabId: tab.id,
+                            popup: 'popup/popup.html'
+                        });
+                        chrome.browserAction.setIcon({ tabId: tab.id, path: { "128": "popup/images/get_pulpou128.png" } });
+                    } else {
+                        chrome.browserAction.setPopup({
+                            tabId: tab.id,
+                            popup: 'popup/popup_not_availible_site.html'
+                        });
+                        chrome.browserAction.setIcon({ tabId: tab.id, path: { "128": "popup/images/off.png" } });
+                    }
+
+                })
+
+
+            });
+        } else {
+
+            chrome.tabs.query({}, function (tabs) {
+
+                tabs.forEach(tab => {
+                    chrome.browserAction.setPopup({
+                        tabId: tab.id,
+                        popup: 'popup/popup.html'
+                    });
+                    chrome.browserAction.setIcon({ tabId: tab.id, path: { "128": "popup/images/get_pulpou128_disabled.png" } });
+                });
+
+            });
+
+        }
+
+    }
+
+    static findSiteAvailible = (siteURL) => {
+
+        if (!Profile.getUserProfile()) return false;
+
+        const sitesAvailibles = (Profile.getUserProfile().sites || []);
+
+        return (sitesAvailibles
+            .find(avs => avs.siteRegexp
+                .find(s => {
+                    let regex = new RegExp(s, "g");
+                    return (regex.test(siteURL));
+                }
+                )) || false);
+
+
+    }
+
 }

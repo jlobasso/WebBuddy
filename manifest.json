@@ -24,10 +24,7 @@
   "browser_action": {
     "default_popup": "popup/popup.html",
     "default_icon": {
-      "16": "popup/images/get_pulpou16.png",
-      "32": "popup/images/get_pulpou32.png",
-      "48": "popup/images/get_pulpou48.png",
-      "128": "popup/images/get_pulpou128.png"
+      "128": "popup/images/get_pulpou128_disabled.png"
     }
   },
   "icons": {

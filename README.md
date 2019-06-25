@@ -13,8 +13,8 @@ A chrome extension.
 
 ## Framework
 
-* Each user have some sites availibles, such as 'instagram', 'mercadolibre', etc.
-* Each user have some actions availibles in each site, such as 'hashtags', 'sellers', etc.
+* Each user have some sites availables, such as 'instagram', 'mercadolibre', etc.
+* Each user have some actions availables in each site, such as 'hashtags', 'sellers', etc.
 * That information that we call ```profile``` is a JSON stored and provided by the backend.
 * The main programaticaly division is: Popup, Content and Background. 
 * Content is also divided in "Custom Site Scripts" and "Web Buddy Bar", both contained in a folder with the same name respectively. 
@@ -33,7 +33,7 @@ The files within the /popup folder manage the top right icon/popup behavior. Tho
 #### Custom Site Scripts
 
 * /custom-site-script files interacts with the page itself.
-* In /custom-site-script, each site availible have a folder in wich we have also each action availible. Those files/actions interacts with the page itself. E.g. /custom-site-script/instagram/hashtags.js manage the hashtag actions inside instagram. All other interaction is through background. Remember that each site and action availible is defined in the ```profile``` JSON.
+* In /custom-site-script, each site available have a folder in wich we have also each action available. Those files/actions interacts with the page itself. E.g. /custom-site-script/instagram/hashtags.js manage the hashtag actions inside instagram. All other interaction is through background. Remember that each site and action available is defined in the ```profile``` JSON.
 * Actions performed on the page could affect other tabs or just the current tab.  
 * Actions performed on the page are listened by originals scripts AND content/custom-site-script scripts, so /custom-site-script scripts must fight against the original code. Previous is also valid for styles. 
 * The more we code in /custom-site-script the more we have to fight against the original code and styles.
@@ -41,7 +41,7 @@ The files within the /popup folder manage the top right icon/popup behavior. Tho
 
 #### Web Buddy Bar
 
-* As /custom-site-script, each user have certain sites and certain availible actions, in /menu/subMenu each site have each action in a different file. E.g. content/menu/subMenu/instagram/hashtags.js  defines the behavior of hashtag for instagram inside the iframe. So content/menu/subMenu/instagram/hashtags.js only interacts with the <iframe> directly. All other interaction is through background.
+* As /custom-site-script, each user have certain sites and certain available actions, in /menu/subMenu each site have each action in a different file. E.g. content/menu/subMenu/instagram/hashtags.js  defines the behavior of hashtag for instagram inside the iframe. So content/menu/subMenu/instagram/hashtags.js only interacts with the <iframe> directly. All other interaction is through background.
 
 The "Web Buddy Bar" is an <iframe> that encapsulates the bar behavior, is inserted by mainContent.js. Once the <iframe> is inserted (outside the <body> tag) using: 
 

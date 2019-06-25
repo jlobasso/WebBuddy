@@ -7,7 +7,7 @@ chrome.runtime.onMessage.addListener(async function (message, sender, sendRespon
     switch (message.action) {
 
       case 'ASK_PROFILE':
-        sendResponse(findSiteAvailible(sender.tab.url).script)
+        sendResponse(BackgroundLogIn.findSiteAvailible(sender.tab.url).script)
         Profile.getUserProfile();
         break;
 
@@ -61,30 +61,16 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   // check session and profile
   BackgroundLogIn.checkSession();
   const profile = Profile.getUserProfile();
-  let matchSite = false;
+  const matchSite = (profile) ? BackgroundLogIn.findSiteAvailible(tab.url) : false;
 
-  // we are not loged in
-  if (!profile) {
-    chrome.browserAction.setPopup({
-      tabId: tabId,
-      popup: 'popup/popup.html'
-    });
-    // chrome.browserAction.setIcon({tabId: tabId,path:{"16":"popup/images/get_pulpou16.png"}});
-  }
-  else {
-    // check if the site is availible if any
-    matchSite = findSiteAvailible(tab.url);
-  }
-
-
-  // we are in an availible site
+  // available site
   if ((changeInfo.status == 'complete' && matchSite)) {
 
     activeSites.add(tab.url);
 
     chrome.tabs.executeScript(tabId, { file: 'content/mainContent.js' }, () => {
 
-      matchSite.availibleActions.forEach(action => {
+      matchSite.availableActions.forEach(action => {
 
         chrome.tabs.executeScript(tabId, { file: `content/custom-site-scripts/${matchSite.script}/${action.importName}.js` }, function () {
           if (chrome.extension.lastError) {
@@ -103,30 +89,5 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     });
 
   }
-  else {
-    chrome.browserAction.setPopup({
-      tabId: tabId,
-      popup: ''
-    });
-    // chrome.browserAction.setIcon({tabId: tabId, path:{"16":"popup/images/pulpou_disabled.png"}});
-  }
 
 });
-
-
-const findSiteAvailible = (siteURL) => {
-
-  if (!Profile.getUserProfile()) return false;
-
-  const sitesAvailibles = (Profile.getUserProfile().sites || []);
-
-  return (sitesAvailibles
-    .find(avs => avs.siteRegexp
-      .find(s => {
-        let regex = new RegExp(s, "g");
-        return (regex.test(siteURL));
-      }
-      )) || false);
-
-
-}
