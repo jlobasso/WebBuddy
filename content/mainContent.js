@@ -1,6 +1,6 @@
-var mainBarState = false;
 /* THIS SCRIPT IS EXECUTED ONCE FOR TAB*/
 if (!window.contentScriptInjected) {
+    var mainBarState = false;
     contentScriptInjected = true;
     const iframe = document.createElement('iframe');
     iframe.src = chrome.extension.getURL('./content/web-buddy-bar/pulpoNav.html');
@@ -11,7 +11,7 @@ if (!window.contentScriptInjected) {
     const maxHeight = 190;
     const bodyStyle = document.body.style;
 
-    const firsHeight = 0;
+    const firsHeight = (mainBarState)?normalHeight:0;
 
     iframe.addEventListener("load", () => {
         iframe.style.height = firsHeight + 'px';
