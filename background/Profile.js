@@ -20,20 +20,7 @@ class Profile {
         if (localStorage.hasOwnProperty('web-buddy-profile')) {
             return JSON.parse(localStorage['web-buddy-profile']);
         } else {
-            return false;
-        }
-    }
-
-    static setSitesAvailibles = (sitesAvailibles) => {
-        localStorage.setItem('web-buddy-sites-availibles', JSON.stringify(sitesAvailibles));
-    }
-
-    static getSitesAvailibles = () => {
-        if (localStorage.hasOwnProperty('web-buddy-sites-availibles')) {
-            return JSON.parse(localStorage['web-buddy-sites-availibles']);
-        }
-        else {
-            return false;
+            return null;
         }
     }
 }

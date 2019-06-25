@@ -54,8 +54,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         if (message.value === 'hide') {
           logInForm.classList.add("hide");
           logedInWrapper.classList.remove("hide");
-          console.log(message);
-          info.innerHTML = message.username;
+          info.innerHTML = `User: ${message.username}`;
         }
 
         break;

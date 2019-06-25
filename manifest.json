@@ -7,7 +7,7 @@
   "background": {
     "scripts": [
       "background/Profile.js",
-      "background/background-login.js",
+      "background/Background-login.js",
       "background/main-background.js",
       "background/background-web-buddy-bar.js"
     ],
