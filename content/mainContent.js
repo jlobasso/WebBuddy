@@ -1,3 +1,4 @@
+var mainBarState = false;
 /* THIS SCRIPT IS EXECUTED ONCE FOR TAB*/
 if (!window.contentScriptInjected) {
     contentScriptInjected = true;
@@ -10,9 +11,10 @@ if (!window.contentScriptInjected) {
     const maxHeight = 190;
     const bodyStyle = document.body.style;
 
+    const firsHeight = 0;
 
     iframe.addEventListener("load", () => {
-        iframe.style.height = normalHeight + 'px';
+        iframe.style.height = firsHeight + 'px';
         iframe.style.width = '101%';
         iframe.style.position = 'fixed';
         iframe.style.top = '0';
@@ -21,9 +23,8 @@ if (!window.contentScriptInjected) {
         iframe.style.margin = '0px';
         iframe.style.padding = '0px';
         iframe.style.border = 'none';
-        bodyStyle.transform = 'translateY(' + normalHeight + 'px )';
+        bodyStyle.transform = 'translateY(' + firsHeight + 'px )';
     });
-
 
     chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 
@@ -32,6 +33,18 @@ if (!window.contentScriptInjected) {
             switch (message.action) {
 
                 case 'BAR_VISIBILITY':
+
+                    if (message.value === 'hidePulpouBar') {
+                        mainBarState = false;
+                        iframe.style.backgroundColor = 'red';
+                        iframe.style.height = 0 + 'px';
+                        bodyStyle.transform = 'translateY(' + 0 + 'px)';
+                    }
+                    if (message.value === 'showPulpouBar') {
+                        mainBarState = true;
+                        iframe.style.height = normalHeight + 'px';
+                        bodyStyle.transform = 'translateY(' + normalHeight + 'px)';
+                    }
                     if (message.value === 'showBar') {
                         iframe.style.height = maxHeight + 'px';
                         bodyStyle.transform = 'translateY(' + maxHeight + 'px)';
@@ -51,6 +64,9 @@ if (!window.contentScriptInjected) {
                 case 'REDIRECT_TAB':
                     window.location = message.value;
 
+                case 'MAIN_BAR_STATE':
+                    sendResponse(mainBarState);
+
                 default:
                     break;
             }
@@ -61,7 +77,6 @@ if (!window.contentScriptInjected) {
     });
 
 }
-
 
 
 

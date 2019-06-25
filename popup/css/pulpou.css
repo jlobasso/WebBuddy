@@ -18,6 +18,10 @@
 text-align: center;
 }
 
+.custom-control-label{
+  cursor: pointer;
+}
+
 .hide{
   display: none;
 }

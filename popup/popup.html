@@ -8,6 +8,7 @@
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link href="css/pulpou.css" rel="stylesheet" type="text/css">
 </head>
+
 <body class="body">
   <div class="container login">
     <div>
@@ -27,11 +28,15 @@
   </div>
   <p class="site-not-available hide">This site is not available</p>
   <div class="container loged-in hide">
+    <div class="custom-control custom-switch pulpou-bar-switch-wrapper">
+      <input type="checkbox" class="custom-control-input" id="pulpou-bar-switch">
+      <label class="custom-control-label" for="pulpou-bar-switch">Activate pulpou</label>
+    </div>
     <h1 class="titles"></h1>
     <div class="loged-in-info">
-        <button type="submit" class="btn btn-primary" id="logout">Log Out</button>
-      </div>
-  </div>  
+      <button type="submit" class="btn btn-primary" id="logout">Log Out</button>
+    </div>
+  </div>
   <script src="popoup.js"></script>
 </body>
 
