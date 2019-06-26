@@ -11,10 +11,9 @@ if (!window.contentScriptInjected) {
     const maxHeight = 190;
     const bodyStyle = document.body.style;
 
-    const firsHeight = (pulpouStatus)?normalHeight:0;
+    const firsHeight = (pulpouStatus) ? normalHeight : 0;
 
     iframe.addEventListener("load", () => {
-        iframe.style.height = firsHeight + 'px';
         iframe.style.width = '101%';
         iframe.style.position = 'fixed';
         iframe.style.top = '0';
@@ -23,7 +22,7 @@ if (!window.contentScriptInjected) {
         iframe.style.margin = '0px';
         iframe.style.padding = '0px';
         iframe.style.border = 'none';
-        bodyStyle.transform = 'translateY(' + firsHeight + 'px )';
+        moveMainIframeTo(firsHeight);
     });
 
     chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
@@ -36,36 +35,42 @@ if (!window.contentScriptInjected) {
 
                     if (message.value === 'hidePulpouBar') {
                         pulpouStatus = false;
-                        iframe.style.backgroundColor = 'red';
-                        iframe.style.height = 0 + 'px';
-                        bodyStyle.transform = 'translateY(' + 0 + 'px)';
+                        moveMainIframeTo(0);
                     }
                     if (message.value === 'showPulpouBar') {
                         pulpouStatus = true;
-                        iframe.style.height = normalHeight + 'px';
-                        bodyStyle.transform = 'translateY(' + normalHeight + 'px)';
+                        moveMainIframeTo(normalHeight);
                     }
                     if (message.value === 'showBar') {
-                        iframe.style.height = maxHeight + 'px';
-                        bodyStyle.transform = 'translateY(' + maxHeight + 'px)';
+                        moveMainIframeTo(maxHeight);
                     }
                     if (message.value === 'hideBar') {
-                        iframe.style.height = normalHeight + 'px';
-                        bodyStyle.transform = 'translateY(' + normalHeight + 'px)';
+                        moveMainIframeTo(normalHeight);
                     }
 
                     if (message.value === 'showSubMenuData') {
                         const fullHeight = +maxHeight + message.data.height;
-                        iframe.style.height = fullHeight + 'px';
-                        bodyStyle.transform = 'translateY(' + fullHeight + 'px)';
+                        moveMainIframeTo(fullHeight);
                     }
                     break;
 
                 case 'REDIRECT_TAB':
                     window.location = message.value;
+                    break;
 
                 case 'MAIN_BAR_STATE':
                     sendResponse(pulpouStatus);
+                    break;
+
+                case 'SESSION_AVAILABLE':
+                    if(message.value){
+                        console.log("hay que ver que hacer aca")
+                    }
+                    else{
+                        moveMainIframeTo(0);
+                        pulpouStatus = false;
+                    }
+                    break;
 
                 default:
                     break;
@@ -75,6 +80,11 @@ if (!window.contentScriptInjected) {
 
 
     });
+
+    const moveMainIframeTo = (height) => {
+        iframe.style.height = height + 'px';
+        bodyStyle.transform = 'translateY(' + height + 'px)';
+    }
 
 }
 

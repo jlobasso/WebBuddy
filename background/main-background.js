@@ -31,7 +31,7 @@ chrome.runtime.onMessage.addListener(async function (message, sender, sendRespon
   if (message.target === 'background-login') {
 
     switch (message.action) {
-      case 'LOGIN':
+      case 'LOG_IN':
 
         BackgroundLogIn.logIn(message.username, message.password);
 
@@ -39,7 +39,7 @@ chrome.runtime.onMessage.addListener(async function (message, sender, sendRespon
 
         break;
 
-      case 'LOGOUT':
+      case 'LOG_OUT':
 
         BackgroundLogIn.logOut();
 

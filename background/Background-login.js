@@ -14,11 +14,11 @@ class BackgroundLogIn {
 
         if (!token || !Profile.getUserProfile()) {
             BackgroundLogIn.updateIcons(false);
-            BackgroundLogIn.sendSessionStatus(false);
+            BackgroundLogIn.sendSessionStatus({session:false});
         }
         else {
             BackgroundLogIn.updateIcons(true);
-            BackgroundLogIn.sendSessionStatus(true);
+            BackgroundLogIn.sendSessionStatus({session:true});
         }
 
 
@@ -27,21 +27,21 @@ class BackgroundLogIn {
 
     static sendSessionStatus = (status) => {
 
-        if (!status) {
+        if (!status.session) {
             /* INFORMAMOS AL POPUP QUE NO HAY SESSION*/
             chrome.runtime.sendMessage({
                 target: 'popup',
-                action: 'LOGIN',
-                value: 'show'
+                action: 'SESSION_AVAILABLE',
+                value: false
             });
 
             /* INFORMAMOS A TODAS LAS TABS QUE NO HAY SESSION*/
-            //TODO: NO ESTA HECHO EL COMPORTAMIENTO EN mainContent.js
             chrome.tabs.query({}, function (tabs) {
                 tabs.forEach((tab, i) => {
                     chrome.tabs.sendMessage(tab.id, {
                         target: 'main-content',
-                        action: 'NO_SESSION'
+                        action: 'SESSION_AVAILABLE',
+                        value:false
                     });
                 });
             });
@@ -50,8 +50,8 @@ class BackgroundLogIn {
             /* INFORMAMOS AL POPUP QUE HAY SESSION*/
             chrome.runtime.sendMessage({
                 target: 'popup',
-                action: 'LOGIN',
-                value: 'hide',
+                action: 'SESSION_AVAILABLE',
+                value: true,
                 username: Profile.getUserProfile().username
             });
 
@@ -61,7 +61,8 @@ class BackgroundLogIn {
                 tabs.forEach((tab, i) => {
                     chrome.tabs.sendMessage(tab.id, {
                         target: 'main-content',
-                        action: 'SESSION_AVAILIBLE'
+                        action: 'SESSION_AVAILABLE',
+                        value: true,
                     });
                 });
             });
@@ -90,7 +91,7 @@ class BackgroundLogIn {
                 siteRegexp: ['http.:\/\/www.instagram.com.*\/*'],
                 availableActions: [
                     {
-                        name: '#HASHTAGS',
+                        name: 'SEARCHES',
                         importName: 'hashtags',
                         hasMenu: true,
                         idMenu: 'hashtag_pulpou_menu',
@@ -219,8 +220,7 @@ class BackgroundLogIn {
 
         Profile.setUserProfile(profile);
         Profile.setToken("abcdefghi");
-
-        BackgroundLogIn.sendSessionStatus(true);
+        BackgroundLogIn.sendSessionStatus({session: true});
         BackgroundLogIn.updateIcons(true);
     }
 
@@ -233,7 +233,7 @@ class BackgroundLogIn {
         Profile.setToken(false);
         Profile.setUserProfile(false);
 
-        BackgroundLogIn.sendSessionStatus(false);
+        BackgroundLogIn.sendSessionStatus({session:false});
     }
 
     static updateIcons = (loguedIn) => {

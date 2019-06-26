@@ -24,7 +24,7 @@ chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       action: 'MAIN_BAR_STATE'
     }, function (mainBarStatus) {
       pulpouBarVisivility.checked = mainBarStatus;
-      pulpouBarVisivilityLabel.innerText = (!mainBarStatus)? "Activate Pulpou" : "Deactivate Pulpou";
+      pulpouBarVisivilityLabel.innerText = (!mainBarStatus) ? "Activate Pulpou" : "Deactivate Pulpou";
     });
   });
 });
@@ -34,10 +34,11 @@ login.addEventListener("click", function () {
 
   chrome.runtime.sendMessage({
     target: 'background-login',
-    action: 'LOGIN',
+    action: 'LOG_IN',
     username: username.value,
     password: password.value
   }, (res) => {
+    //TODO: HACER UN LOADER HASTA QUE HAYA ALGUN RESULTADO DEL LOGIN.
     console.log(res)
   });
 
@@ -47,7 +48,7 @@ logout.addEventListener("click", function () {
 
   chrome.runtime.sendMessage({
     target: 'background-login',
-    action: 'LOGOUT'
+    action: 'LOG_OUT'
   }, (res) => {
     console.log(res)
   });
@@ -59,7 +60,7 @@ logout.addEventListener("click", function () {
 
   const status = (pulpouBarVisivility.checked || false) ? 'showPulpouBar' : 'hidePulpouBar';
 
-  pulpouBarVisivilityLabel.innerText = (!pulpouBarVisivility.checked)? "Activate Pulpou" : "Deactivate Pulpou";
+  pulpouBarVisivilityLabel.innerText = (!pulpouBarVisivility.checked) ? "Activate Pulpou" : "Deactivate Pulpou";
 
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     tabs.forEach((tab, i) => {
@@ -78,17 +79,16 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 
   if (message.target === 'popup') {
     switch (message.action) {
-      case 'LOGIN':
+      case 'SESSION_AVAILABLE':
 
-        if (message.value === 'show') {
-          logInForm.classList.remove("hide");
-          logedInWrapper.classList.add("hide");
-        }
-
-        if (message.value === 'hide') {
+        if (message.value) {
           logInForm.classList.add("hide");
           logedInWrapper.classList.remove("hide");
           info.innerHTML = `User: ${message.username}`;
+        }
+        else {
+          logInForm.classList.remove("hide");
+          logedInWrapper.classList.add("hide");
         }
 
         break;
