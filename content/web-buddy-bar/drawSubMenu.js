@@ -1,16 +1,22 @@
 import * as modules from "./subMenu/index.js";
 
 
-export const drawSubMenu = (profile, currentAvalibleSite) => {
+export const drawSubMenu = (profile, currentAvailableSite) => {
 
-    profile.availableActions.forEach(element => {
-        const wrapper = document.getElementById(element.idData);
-        try {
-            modules.default[currentAvalibleSite][element.importName](element, wrapper);            
-        } catch (error) {
-            console.error(`drawSubMenu.js: Site or action does not exist -> site:${currentAvalibleSite}, action:${element.importName}`);
+    profile.sites.forEach(site => {
+        if (site.script === currentAvailableSite) {
+
+            site.availableActions.forEach(element => {
+                if (element.hasMenu) {
+                    const wrapper = document.getElementById(element.idData);
+                    try {
+                        modules.default[currentAvailableSite][element.importName](element, wrapper);
+                    } catch (error) {
+                        console.error(`drawSubMenu.js: Site or action does not exist -> site:${currentAvailableSite}, action:${element.importName}`);
+                    }
+                }
+
+            });
         }
-
     });
-
-} 
+}

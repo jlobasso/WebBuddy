@@ -6,6 +6,7 @@ const barVisibility = {
     value: null,
     data: {}
 }
+let currentAvailableSite = null;
 let defTmp = [];
 
 export const defaultMenu = ['settings-button'];
@@ -17,7 +18,8 @@ export const updateProfile = (newProfile) => {
 
 export const getActionElement = (prop, value) => {
 
-    return defTmp.availableActions.reduce((a, c) => {
+    return defTmp.sites.filter(site=>site.script === currentAvailableSite)[0]
+    .availableActions.reduce((a, c) => {
         if (prop in c && c[prop] === value) {
             a.push(c)
         }
@@ -62,8 +64,9 @@ export const hideBar = () => {
     chrome.runtime.sendMessage(barVisibility);
 }
 
-export const setCommonActions = () => {
+export const setCommonActions = (currentSite) => {
 
+    currentAvailableSite = currentSite;
     const settings = document.getElementById("settings-button");
     const thumbDown = document.getElementById("thumb-down-button");
     const sendNotices = document.getElementById("send-notices-button");
@@ -75,7 +78,7 @@ export const setCommonActions = () => {
         const itemMenu = document.getElementsByClassName("itemMenu");
 
         [...itemMenu].forEach(itm => {
-            const radio = itm.getElementsByClassName("radioMarker")[0];
+            const radio = itm.getElementsByClassName("radio-marker")[0];
             radio.innerText = 'radio_button_unchecked';
             itm.classList.remove("active");
         })

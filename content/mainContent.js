@@ -1,6 +1,6 @@
 /* THIS SCRIPT IS EXECUTED ONCE FOR TAB*/
 if (!window.contentScriptInjected) {
-    var mainBarState = false;
+    var pulpouStatus = false;
     contentScriptInjected = true;
     const iframe = document.createElement('iframe');
     iframe.src = chrome.extension.getURL('./content/web-buddy-bar/pulpoNav.html');
@@ -11,7 +11,7 @@ if (!window.contentScriptInjected) {
     const maxHeight = 190;
     const bodyStyle = document.body.style;
 
-    const firsHeight = (mainBarState)?normalHeight:0;
+    const firsHeight = (pulpouStatus)?normalHeight:0;
 
     iframe.addEventListener("load", () => {
         iframe.style.height = firsHeight + 'px';
@@ -35,13 +35,13 @@ if (!window.contentScriptInjected) {
                 case 'BAR_VISIBILITY':
 
                     if (message.value === 'hidePulpouBar') {
-                        mainBarState = false;
+                        pulpouStatus = false;
                         iframe.style.backgroundColor = 'red';
                         iframe.style.height = 0 + 'px';
                         bodyStyle.transform = 'translateY(' + 0 + 'px)';
                     }
                     if (message.value === 'showPulpouBar') {
-                        mainBarState = true;
+                        pulpouStatus = true;
                         iframe.style.height = normalHeight + 'px';
                         bodyStyle.transform = 'translateY(' + normalHeight + 'px)';
                     }
@@ -65,7 +65,7 @@ if (!window.contentScriptInjected) {
                     window.location = message.value;
 
                 case 'MAIN_BAR_STATE':
-                    sendResponse(mainBarState);
+                    sendResponse(pulpouStatus);
 
                 default:
                     break;

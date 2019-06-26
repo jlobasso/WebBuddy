@@ -7,12 +7,17 @@ chrome.runtime.onMessage.addListener(async function (message, sender, sendRespon
     switch (message.action) {
 
       case 'ASK_PROFILE':
-        sendResponse(BackgroundLogIn.findSiteAvailible(sender.tab.url).script)
-        Profile.getUserProfile();
+        sendResponse(BackgroundLogIn.findSiteAvailible(sender.tab.url).script);
+        chrome.tabs.sendMessage(sender.tab.id, {
+          target: 'main-content',
+          action: 'SEND_PROFILE',
+          profile: Profile.getUserProfile()
+        });
         break;
 
       case 'REDIRECT_TAB':
         message.target = 'main-content';
+        //TODO: NO ES NECESARIAMENTE LA ACTIVA, SINO EL SENDER
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
           chrome.tabs.sendMessage(tabs[0].id, message);
         });

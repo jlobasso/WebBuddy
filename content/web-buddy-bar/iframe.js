@@ -1,24 +1,37 @@
-import {setCommonActions} from './commonActions.js';
+import { setCommonActions } from './commonActions.js';
 import { drawMenu } from './drawMenu.js'
 import { drawSubMenu } from './drawSubMenu.js'
 
-let profile = { availableActions: [] };
-let currentAvalibleSite = null;
+let profile = null;
+let currentAvailableSite = null;
+let Menu = {
+    setCommonActions: setCommonActions,
+    drawMenu: drawMenu,
+    drawSubMenu: drawSubMenu
+};
 
-setCommonActions();
 
-/*SE SOLICITAN LAS DEFINICIONES AL BACKGROUD*/
-chrome.runtime.sendMessage({ target: 'main-background', action: 'ASK_PROFILE' },(currentUrl)=>{
-    currentAvalibleSite = currentUrl;
+/*ASK DEFINITIONS TO BACKGROUD*/
+chrome.runtime.sendMessage({ target: 'main-background', action: 'ASK_PROFILE' }, (currentUrl) => {
+    currentAvailableSite = currentUrl;
+    Menu.setCommonActions(currentAvailableSite);
 });
 
-/*EL BACKGROUND ENVIA LAS DEFINICIONES*/
+/*BACKGROUND SEND DEFINITIONS*/
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-    if (message.target === 'main-content' && message.action === 'SEND_PROFILE') {
-        if(JSON.stringify(profile) !== JSON.stringify(message.def)){
-            profile =  message.def;           
-            drawMenu(message.def);
-            drawSubMenu(message.def, currentAvalibleSite);
+
+    if (message.target === 'main-content') {
+        switch (message.action) {
+            case 'SEND_PROFILE':
+                if (JSON.stringify(profile) !== JSON.stringify(message.profile)) {
+                    profile = message.profile;
+                    Menu.drawMenu(message.profile, currentAvailableSite);
+                    Menu.drawSubMenu(message.profile, currentAvailableSite);
+                }
+                break;
+
+            default:
+                break;
         }
     }
 });
