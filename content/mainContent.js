@@ -1,7 +1,7 @@
 /* THIS SCRIPT IS EXECUTED ONCE FOR TAB*/
 if (!window.contentScriptInjected) {
-    var pulpouStatus = false;
     contentScriptInjected = true;
+    var pulpouStatus = false;
     const iframe = document.createElement('iframe');
     iframe.src = chrome.extension.getURL('./content/web-buddy-bar/pulpoNav.html');
     iframe.id = "webBuddyByPulpou"
@@ -13,6 +13,7 @@ if (!window.contentScriptInjected) {
 
     const firsHeight = (pulpouStatus) ? normalHeight : 0;
 
+    //DEFAULT IFRAME SHAPE
     iframe.addEventListener("load", () => {
         iframe.style.width = '101%';
         iframe.style.position = 'fixed';
@@ -64,7 +65,7 @@ if (!window.contentScriptInjected) {
 
                 case 'SESSION_AVAILABLE':
                     if(message.value){
-                        console.log("hay que ver que hacer aca")
+                        //TDDO: ver que hacer aca.
                     }
                     else{
                         moveMainIframeTo(0);

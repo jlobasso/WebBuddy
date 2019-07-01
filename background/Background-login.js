@@ -5,27 +5,23 @@ class BackgroundLogIn {
     constructor() {
     }
 
-    static checkSession = () => {
+    static checkSession = async () => {
 
-        const token = Profile.getToken();
+        this.userToken = await Profile.getUserToken();
+        this.userProfile = await Profile.getUserProfile();
 
-        /* TODO: HACER FETCH PARA VER SI EL TOKEN ES VALIDO Y/O SI HAY SESSION ACTIVA*/
-        /* TODO: DEBERIAMOS ACTUALIZAR EL PROFILE Y SITES AVAILIBLES ?? */
-
-        if (!token || !Profile.getUserProfile()) {
+        if (!userToken || !userProfile) {
             BackgroundLogIn.updateIcons(false);
-            BackgroundLogIn.sendSessionStatus({session:false});
+            BackgroundLogIn.sendSessionStatus({ session: false });
         }
         else {
             BackgroundLogIn.updateIcons(true);
-            BackgroundLogIn.sendSessionStatus({session:true});
+            BackgroundLogIn.sendSessionStatus({ session: true });
         }
-
 
     }
 
-
-    static sendSessionStatus = (status) => {
+    static sendSessionStatus = async (status) => {
 
         if (!status.session) {
             /* INFORMAMOS AL POPUP QUE NO HAY SESSION*/
@@ -41,18 +37,20 @@ class BackgroundLogIn {
                     chrome.tabs.sendMessage(tab.id, {
                         target: 'main-content',
                         action: 'SESSION_AVAILABLE',
-                        value:false
+                        value: false
                     });
                 });
             });
         } else {
+
+            const profile = await Profile.getUserProfile();
 
             /* INFORMAMOS AL POPUP QUE HAY SESSION*/
             chrome.runtime.sendMessage({
                 target: 'popup',
                 action: 'SESSION_AVAILABLE',
                 value: true,
-                username: Profile.getUserProfile().username
+                username: profile.username
             });
 
             /* INFORMAMOS A TODAS LAS TABS QUE HAY SESSION*/
@@ -218,9 +216,10 @@ class BackgroundLogIn {
             ]
         }
 
+        //TODO: REEMPLAZAR PROFILE Y TOKEN POR UNO VERDADERO
         Profile.setUserProfile(profile);
-        Profile.setToken("abcdefghi");
-        BackgroundLogIn.sendSessionStatus({session: true});
+        Profile.setUserToken("abcdefghi");
+        BackgroundLogIn.sendSessionStatus({ session: true });
         BackgroundLogIn.updateIcons(true);
     }
 
@@ -230,21 +229,19 @@ class BackgroundLogIn {
         BackgroundLogIn.updateIcons(false);
 
         /*REMOVEMOS TODA LA INFORMACION*/
-        Profile.setToken(false);
+        Profile.setUserToken(false);
         Profile.setUserProfile(false);
 
-        BackgroundLogIn.sendSessionStatus({session:false});
+        BackgroundLogIn.sendSessionStatus({ session: false });
     }
 
     static updateIcons = (loguedIn) => {
 
-        console.log(`esta logueado?${loguedIn}`);
-
         if (loguedIn) {
             chrome.tabs.query({}, function (tabs) {
 
-                tabs.forEach(tab => {
-                    const matchSite = BackgroundLogIn.findSiteAvailible(tab.url);
+                tabs.forEach(async (tab) => {
+                    const matchSite = await BackgroundLogIn.findSiteAvailible(tab.url);
 
                     if (matchSite) {
                         chrome.browserAction.setPopup({
@@ -265,7 +262,6 @@ class BackgroundLogIn {
 
             });
         } else {
-
             chrome.tabs.query({}, function (tabs) {
 
                 tabs.forEach(tab => {
@@ -282,11 +278,15 @@ class BackgroundLogIn {
 
     }
 
-    static findSiteAvailible = (siteURL) => {
+    //TODO HAY QUE HACER ESTA FUNCION NO ASINCRONA.
 
-        if (!Profile.getUserProfile()) return false;
+    static findSiteAvailible = async (siteURL) => {
 
-        const sitesAvailibles = (Profile.getUserProfile().sites || []);
+        const profile = await Profile.getUserProfile();
+
+        if (!profile) return false;
+
+        const sitesAvailibles = (profile.sites || []);
 
         return (sitesAvailibles
             .find(avs => avs.siteRegexp

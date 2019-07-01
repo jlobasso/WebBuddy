@@ -4,24 +4,32 @@ class Profile {
     constructor() {
     }
 
-    static setToken = (token) => {
-        localStorage.setItem('web-buddy-token', token);
+    static setUserToken = (token) => {
+        chrome.storage.sync.set({ 'web-buddy-token': token });
     }
 
-    static getToken = () => {
-        return (localStorage['web-buddy-token'] || null);
+    static getUserToken = async () => {
+        const token = await new Promise(function (resolve) {
+            chrome.storage.sync.get('web-buddy-token', function (result) {
+                resolve(result);
+            });
+        });
+
+        return token['web-buddy-token'];
     }
 
     static setUserProfile = (profile) => {
-        localStorage.setItem('web-buddy-profile', JSON.stringify(profile));
+        chrome.storage.sync.set({ 'web-buddy-profile': profile });
     }
 
-    static getUserProfile = () => {
-        if (localStorage.hasOwnProperty('web-buddy-profile')) {
-            return JSON.parse(localStorage['web-buddy-profile']);
-        } else {
-            return null;
-        }
+    static getUserProfile = async () => {
+        const profile = await new Promise(function (resolve) {
+            chrome.storage.sync.get('web-buddy-profile', function (result) {
+                resolve(result);
+            });
+        })
+        return profile['web-buddy-profile'];
     }
+
 }
 

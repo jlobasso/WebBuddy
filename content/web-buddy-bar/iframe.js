@@ -11,11 +11,16 @@ let Menu = {
 };
 
 
-/*ASK DEFINITIONS TO BACKGROUD*/
-chrome.runtime.sendMessage({ target: 'main-background', action: 'ASK_PROFILE' }, (currentUrl) => {
-    currentAvailableSite = currentUrl;
-    Menu.setCommonActions(currentAvailableSite);
-});
+/*ASK PROFILE TO BACKGROUND*/
+chrome.runtime.sendMessage({
+    target: 'main-background',
+    action: 'ASK_PROFILE'
+}
+// , (currentUrl) => {
+//     currentAvailableSite = currentUrl;
+//     Menu.setCommonActions(currentAvailableSite);
+// }
+);
 
 /*BACKGROUND SEND DEFINITIONS*/
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {

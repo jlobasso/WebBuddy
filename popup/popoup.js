@@ -9,14 +9,13 @@ const notAvailibleSite = document.getElementsByClassName("site-not-available")[0
 const pulpouBarVisivility = document.getElementById("pulpou-bar-switch");
 const pulpouBarVisivilityLabel = document.getElementsByClassName("custom-control-label")[0];
 
-
-
-//chequeamos si existe una session activa
+//CHECK IF SESSION IS AVAILABLE
 chrome.runtime.sendMessage({
   target: 'background-login',
   action: 'CHECK_SESSION'
 });
 
+//ASK THE ACTIVE TAB THE STATE OF THAT TAB
 chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
   tabs.forEach((tab, i) => {
     chrome.tabs.sendMessage(tab.id, {
